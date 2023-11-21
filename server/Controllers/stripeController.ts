@@ -205,6 +205,12 @@ export const stripeController = {
             const customerId = data.customer;
             const customer = await stripe.customers.retrieve(customerId);
             const customerEmail = customer.email;
+
+            const parent = {
+                parentname: "placeholder till james figures it out",
+                email: customerEmail,
+                phone: "another placeholder"
+            }
     
             const { metadata } = data; //potentially grab parent name and email here?
             const cartItems = metadata.cartItems;
@@ -212,9 +218,18 @@ export const stripeController = {
        
             JSONStuff.forEach(async (val:Item) => {
                 let index = 0;
+                const detailsOfKid = val.details[index];
                 while (index < val.details.length){            
                     if (val.id == 11 || val.id == 16 || val.id == 17){ //holiday camp 2 day or 1 day
-                        const addingCamp = await addChildToCamp(val.details[index].purchaseName[0], val.id, val.details[index], index, val.details[index].purchaseName[1]);
+                        const campKidDetails = {
+                            childName: detailsOfKid.childName,
+                            childAge: detailsOfKid.childAge,
+                            childComments: detailsOfKid.childComments,
+                            childClub: detailsOfKid.childClub,
+                            purchaseName: detailsOfKid.purchaseName,
+                            parent: parent
+                        }
+                        const addingCamp = await addChildToCamp(detailsOfKid.purchaseName[0], val.id, campKidDetails, index, detailsOfKid.purchaseName[1]);
                     } else if (val.id == 9 || val.id == 10){ //buying tokens
                         const makingTokensForPlan = await makeTokenForPlan(val.id, customerEmail);                   
                     } else if (val.id == 14 || val.id == 15){ //using tokens
