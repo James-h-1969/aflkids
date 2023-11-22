@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { Parent } from "../../types/parentType"
 import { Button } from "react-bootstrap";
 import "../manager.css"
+import { backendLink } from "../../globalVar";
 
 
 export default function ParentSection(){
@@ -12,7 +13,7 @@ export default function ParentSection(){
 
     useEffect(() => {
         async function fetchParents() {
-          const response = await fetch(`https://aflkids-backend.onrender.com/Parents`);
+          const response = await fetch(`${backendLink}/Parents`);
           const parents = await response.json();
           let parent_sections = []
           let current_parent_Section = []

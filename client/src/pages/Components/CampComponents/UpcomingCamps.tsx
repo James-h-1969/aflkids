@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Campbox from "./Campbox";
 import useMediaQueries from "media-queries-in-react";
+import { backendLink } from "../../../globalVar";
 
 type CampType = {
   name: string,
@@ -21,7 +22,7 @@ function UpcomingCamps() {
   
   useEffect(() => {
     async function fetchCamps() {
-      const response = await fetch(`https://aflkids-backend.onrender.com/camps`);
+      const response = await fetch(`${backendLink}/camps`);
       const newCamps = await response.json();
       let activeCamps: CampType[] = [];
       for (let i = 0; i < newCamps.length; i++){ //only show the camps that havnt been archived

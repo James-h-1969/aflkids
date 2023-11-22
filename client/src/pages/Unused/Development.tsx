@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import NavBar from "./Components/NavBar";
-import Header from "./Components/Header";
-import AcademyItem from "./Components/AcademyItem";
+import NavBar from "../Components/NavBar";
+import Header from "../Components/Header";
+import AcademyItem from "../Components/AcademyItem";
 
 type AcademyType = {
     name:string,

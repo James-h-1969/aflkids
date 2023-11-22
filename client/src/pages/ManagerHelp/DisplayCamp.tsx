@@ -4,6 +4,7 @@ import { Button, Form } from "react-bootstrap"
 import { useState} from "react"
 import ShowKids from "./ShowKids";
 import { locations } from "../../types/campType";
+import { backendLink } from "../../globalVar";
 
 type displayCampType = {
     val: CampType
@@ -53,7 +54,7 @@ export default function DisplayCamp({val}: displayCampType) {
             body: JSON.stringify(newCamp),
           };
 
-        fetch("https://aflkids-backend.onrender.com/updatecamp", requestOptions);
+        fetch(`${backendLink}/updatecamp`, requestOptions);
         location.reload();
 
     }
@@ -131,7 +132,7 @@ export default function DisplayCamp({val}: displayCampType) {
             body: JSON.stringify(update),
         };
 
-        const response = await fetch("https://aflkids-backend.onrender.com/updatecampstatus", requestOptions);
+        const response = await fetch(`${backendLink}/updatecampstatus`, requestOptions);
         if (response.ok){
             console.log("Successfully Update the status of the camp.")
         }
@@ -148,7 +149,7 @@ export default function DisplayCamp({val}: displayCampType) {
             body: JSON.stringify(update),
         };
 
-        fetch("https://aflkids-backend.onrender.com/deletecamp", requestOptions)
+        fetch(`${backendLink}/deletecamp`, requestOptions)
         location.reload();
     }
 

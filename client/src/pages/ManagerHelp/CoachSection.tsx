@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { Button, Form } from "react-bootstrap"
 import { Coach } from "../../types/coachType";
 import "../manager.css"
+import { backendLink } from "../../globalVar";
 
 export default function CoachSection(){
     const [coaches, setCoaches] = useState<Coach[]>([]);
@@ -21,7 +22,7 @@ export default function CoachSection(){
             body: JSON.stringify(newCoach),
           };
 
-        fetch("https://aflkids-backend.onrender.com/Coaches", requestOptions)
+        fetch(`${backendLink}/Coaches`, requestOptions)
 
         location.reload();
     }
@@ -37,13 +38,13 @@ export default function CoachSection(){
             body: JSON.stringify(update),
         };
 
-        fetch("https://aflkids-backend.onrender.com/deleteCoach", requestOptions)
+        fetch(`${backendLink}/deleteCoach`, requestOptions)
         location.reload();
     }
 
     useEffect(() => {
         async function fetchCoaches() {
-          const response = await fetch(`https://aflkids-backend.onrender.com/Coaches`);
+          const response = await fetch(`${backendLink}/Coaches`);
           const coaches = await response.json();
           setCoaches(coaches);
         }

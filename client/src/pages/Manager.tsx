@@ -7,6 +7,7 @@ import { CampType } from "../types/campType";
 import DisplayCamp from "./ManagerHelp/DisplayCamp";
 import CoachSection from "./ManagerHelp/CoachSection";
 import ParentSection from "./ManagerHelp/ParentSection";
+import { backendLink } from "../globalVar";
 
 export default function Manager(){
     const [camps, setCamps] = useState<CampType[]>([]);
@@ -15,7 +16,7 @@ export default function Manager(){
 
     useEffect(() => {
         async function fetchCamps() {
-          const response = await fetch(`https://aflkids-backend.onrender.com/camps`);
+          const response = await fetch(`${backendLink}/camps`);
           const newCamps = await response.json();
           setCamps(newCamps);
         }

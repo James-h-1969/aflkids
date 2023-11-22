@@ -8,6 +8,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import useMediaQueries from "media-queries-in-react";
+import { backendLink } from "../../../globalVar";
 
 type CampboxProps = {
     name: string,
@@ -39,7 +40,7 @@ function Campbox ({name, Location, ages, date, times, Price, address, locPic, in
     
     //this function checks whether the coupon is a valid coupon (async because it is fetching data)
     async function isValidCode(id: number, token: string){
-        const response = await fetch('https://aflkids-backend.onrender.com/checkTokens', { //make a post request with the info in the body. handle in backend
+        const response = await fetch(`${backendLink}/checkTokens`, { //make a post request with the info in the body. handle in backend
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
