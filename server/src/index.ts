@@ -17,7 +17,9 @@ app.use(cors({
 
 const PORT = process.env.PORT || 3000;
 
-const db = mongoose.connect(process.env.MONGO_URL!).then(()=>{ //connects the backend to the database at mongo db
+const dbName = "test"
+
+const db = mongoose.connect(process.env.MONGO_URL+ dbName!).then(()=>{ //connects the backend to the database at mongo db
     console.log(`Listening on Port: ${PORT}`);
     app.listen(PORT);
 });
@@ -42,6 +44,7 @@ app.post("/PrivateTimes", privateController.setCoachTimes);
 
 // TOKEN ROUTES //
 app.post("/checkTokens", tokenController.checkToken);
+app.post("/addTokenType", tokenController.addTokenType)
 
 // STRIPE ROUTES //
 app.post('/create-checkout-session', stripeController.createSession);

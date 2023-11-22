@@ -2,11 +2,11 @@ import { Request, Response } from "express";
 const bcrypt = require("bcryptjs");
 import Camp from "../Models/Camp";
 import Coach from "../Models/Coach";
-import generateHashedTokens, {hashedTokensType} from "../util/randomToken";
+import generateHashedTokens  from "../util/randomToken";
 import Tokens from "../Models/Tokens";
 import Product from "../Models/Product";
 import { ses, senderEmail } from "../util/emails";
-import { useTokenForPlan } from "../util/randomToken"
+// import { useTokenForPlan } from "../util/randomToken"
 
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 
@@ -209,7 +209,7 @@ export const stripeController = {
                     } else if (val.id == 9 || val.id == 10){ //buying tokens
                         const makingTokensForPlan = await makeTokenForPlan(val.id, customerEmail);                   
                     } else if (val.id == 14 || val.id == 15){ //using tokens
-                        const usingTokensForPlan = await useTokenForPlan(val.details[index].purchaseName[3], val.id);
+                        // const usingTokensForPlan = await useTokenForPlan(val.details[index].purchaseName[3], val.id);
                     }
                     index++;
                     }

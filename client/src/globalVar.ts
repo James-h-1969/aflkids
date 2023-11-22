@@ -4,4 +4,5 @@
 // Colours
 
 // Misc.
-export const backendLink = "https://aflkids-backend.onrender.com"
+// export const backendLink = "https://aflkids-backend.onrender.com" // IF LIVE !!
+export const backendLink = "http://localhost:3000"  // IF LOCAL

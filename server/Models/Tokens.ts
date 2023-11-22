@@ -3,9 +3,8 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const TokensSchema = new Schema({
-    singleTokens: Array,
-    groupTokens: Array,
-    campTokens: Array,
+    name: String,
+    tokens: Array
 });
 
 const TokenModel = mongoose.model("Token", TokensSchema);
