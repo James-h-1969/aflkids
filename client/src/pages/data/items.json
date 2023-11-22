@@ -114,8 +114,8 @@
     {
         "id":17,
         "name": "Discounted Camp",
-        "priceString": "$55.00",
-        "priceNum": 55.00,
+        "priceString": "$100.00",
+        "priceNum": 100.00,
         "imgUrl": "/assets/camps.jpg"
     }
 
