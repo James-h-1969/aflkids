@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 import Tokens from "../Models/Tokens";
 import express, { NextFunction, Request, Response } from "express";
+import { ses, senderEmail } from "../util/emails";
 
 const SALT_ROUNDS = 10;
 
@@ -100,7 +101,7 @@ export const tokenController = {
             }
             
             if (matchFound) {
-                console.log("Match Found. COngratulations")
+                console.log("Match Found. Congratulations")
                 return res.json({ message: 'Token is valid.' });
             } else {
                 return res.status(401).json({ error: 'Invalid token.' });
@@ -120,5 +121,40 @@ export const tokenController = {
         });
         const createdTokenType = await addTokenType.save();
         res.json(createdTokenType);
+    },
+
+}
+
+export async function makeTokenForPlan(id:number, customerEmail:string){
+    //create 5 tokens
+    const [hashedTokens, newTokens] = await generateHashedTokens(5, 8);
+    //add them onto corresponding database
+    const typeOfToken = (id == 9) ? "singleTokens":"groupTokens";
+    let filter = { };
+    hashedTokens.forEach(async (token) => {
+        let update = { $push: { [typeOfToken]: token } };
+        const updatedToken = await Tokens.findOneAndUpdate(filter, update, { new:true, runValidators:true});
+    })  
+    //add them to email details.   
+    const tokenString = newTokens.join(", ");
+    const subject = (id == 9) ? "AFLKIDS 5x 1 on 1 Session Tokens":"AFLKIDS 5x Group Session Tokens";
+    const params = {
+        Destination: {
+            ToAddresses: [customerEmail, "Tomoleary@AFLKids.com.au"]
+        },
+        Message: {
+            Body: {
+                Html: { Data: `Thanks for purchasing! <br /><br />Use these five codes at any point in the next 6 months by inputting when you are booking a session. Keep them and cross off each one as you use it. <br />They are <br /><br />${tokenString}<br /><br /> Thanks, <br />AFLKIDS` }
+            },
+            Subject: { Data: subject }
+        },
+        Source: senderEmail
+    };
+
+    try {
+        const result = await ses.sendEmail(params).promise();
+        console.log(`Email sent to ${customerEmail}. Message ID: ${result.MessageId}`);
+    } catch (error) {
+        console.error(`Error sending email to ${customerEmail}:`, error);
     }
 }

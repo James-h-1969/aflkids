@@ -6,7 +6,7 @@ import generateHashedTokens  from "../util/randomToken";
 import Tokens from "../Models/Tokens";
 import Product from "../Models/Product";
 import { ses, senderEmail } from "../util/emails";
-// import { useTokenForPlan } from "../util/randomToken"
+import { makeTokenForPlan } from "../util/randomToken"
 
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 
@@ -88,42 +88,6 @@ async function addChildToCamp(name:string, id:number, details:Object, index:numb
         console.error("Error updating camp:", error);
     }
 }
-
-async function makeTokenForPlan(id:number, customerEmail:string){
-    //create 5 tokens
-    const [hashedTokens, newTokens] = await generateHashedTokens(5, 8);
-    //add them onto corresponding database
-    const typeOfToken = (id == 9) ? "singleTokens":"groupTokens";
-    let filter = { };
-    hashedTokens.forEach(async (token) => {
-        let update = { $push: { [typeOfToken]: token } };
-        const updatedToken = await Tokens.findOneAndUpdate(filter, update, { new:true, runValidators:true});
-    })  
-    //add them to email details.   
-    const tokenString = newTokens.join(", ");
-    const subject = (id == 9) ? "AFLKIDS 5x 1 on 1 Session Tokens":"AFLKIDS 5x Group Session Tokens";
-    const params = {
-        Destination: {
-            ToAddresses: [customerEmail, "Tomoleary@AFLKids.com.au"]
-        },
-        Message: {
-            Body: {
-                Html: { Data: `Thanks for purchasing! <br /><br />Use these five codes at any point in the next 6 months by inputting when you are booking a session. Keep them and cross off each one as you use it. <br />They are <br /><br />${tokenString}<br /><br /> Thanks, <br />AFLKIDS` }
-            },
-            Subject: { Data: subject }
-        },
-        Source: senderEmail
-    };
-
-    try {
-        const result = await ses.sendEmail(params).promise();
-        console.log(`Email sent to ${customerEmail}. Message ID: ${result.MessageId}`);
-    } catch (error) {
-        console.error(`Error sending email to ${customerEmail}:`, error);
-    }
-}
-
-
 
 export const stripeController = {
     createSession: async (req: Request, res: Response) => { //function for handling when a payment session is beginning
