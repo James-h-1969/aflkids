@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { Parent } from "../../types/parentType"
 import { Button } from "react-bootstrap";
 import "../manager.css"
-import { backendLink } from "../../globalVar";
+import { ColourScheme, backendLink } from "../../globalVar";
 
 
 export default function ParentSection(){
@@ -44,12 +44,12 @@ export default function ParentSection(){
     
     return(
         <div className="mb-5">
-            <Button className="ms-3" onClick={() => setShowingParents(!showingParents)} style={{backgroundColor:"#46768E", border:"transparent"}}>{!showingParents ? "View Parents":"Hide Parents"}</Button>
+            <Button className="ms-3" onClick={() => setShowingParents(!showingParents)} style={{backgroundColor:ColourScheme.defaultColour, border:"transparent"}}>{!showingParents ? "View Parents":"Hide Parents"}</Button>
             {showingParents?
             <>
             <div className="d-flex gap-2 ms-3 mt-3">
-                <div onClick={() => updateIndex(-1)} className="need_hover rounded-circle" style={{width:"40px", height:"40px", backgroundColor:"#46768E", color:"white", textAlign:"center"}}>{"<"}</div>
-                <div onClick={() => updateIndex(1)} className="need_hover rounded-circle" style={{width:"40px", height:"40px", backgroundColor:"#46768E", color:"white", textAlign:"center"}}>{">"}</div>
+                <div onClick={() => updateIndex(-1)} className="need_hover rounded-circle" style={{width:"40px", height:"40px", backgroundColor:ColourScheme.defaultColour, color:"white", textAlign:"center"}}>{"<"}</div>
+                <div onClick={() => updateIndex(1)} className="need_hover rounded-circle" style={{width:"40px", height:"40px", backgroundColor:ColourScheme.defaultColour, color:"white", textAlign:"center"}}>{">"}</div>
                 <div>{parentsIndex+1}/{parentsSections.length}</div>
             </div>
             <div className="mb-1 ms-3">

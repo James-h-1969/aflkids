@@ -4,6 +4,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import '../Components.css';
 import useMediaQueries from "media-queries-in-react";
+import { ColourScheme } from '../../../globalVar';
 
 type PrivateLocationProps = {
   showTimetable: () => void;
@@ -28,7 +29,7 @@ function PrivateLocation({showTimetable, step1}:PrivateLocationProps) {
   return (
     <div>
       <div className="">
-        <h1><span className="" style={{color:"#46768E", marginLeft:mediaQueries.mobile?"20px":"80px", fontFamily:"Rubik", fontWeight:"bold", fontSize:mediaQueries.mobile?"30px":"50px"}}>Book Session</span></h1>
+        <h1><span className="" style={{color:ColourScheme.defaultColour, marginLeft:mediaQueries.mobile?"20px":"80px", fontFamily:"Rubik", fontWeight:"bold", fontSize:mediaQueries.mobile?"30px":"50px"}}>Book Session</span></h1>
       </div>
       <div className="d-flex justify-content-between align-items-center private-location-box" style={{margin:mediaQueries.mobile?"20px":"50px", padding:mediaQueries.mobile?"20px":"30px"}}>
         <h1 className="mr-auto"><span className="step1" style={{fontSize:mediaQueries.mobile?"20px":'40px'}}>Step 1: Choose Location</span></h1>

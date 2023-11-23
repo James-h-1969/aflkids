@@ -3,6 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import { useState } from "react";
 import storeItems from "../../data/items.json"
 import useMediaQueries from "media-queries-in-react";
+import { ColourScheme } from "../../../globalVar";
 
 // type storeItemType = {
 //     id:number,
@@ -153,7 +154,7 @@ export default function AddSession(props:AddSessionProps){
     const isEmailingPossible =  email && childName && childAge && club;
     
     return(
-        <div className="p-2 ps-4 pe-4" style={{backgroundColor:"rgb(222, 222, 231)", borderRadius:"15px", margin:mediaQueries.mobile?"20px":"40px"}}>
+        <div className="p-2 ps-4 pe-4" style={{backgroundColor:ColourScheme.defaultColour, borderRadius:"15px", margin:mediaQueries.mobile?"20px":"40px"}}>
             <Form className="mt-5">
                         <Form.Group className="d-flex mb-3" controlId="formBasicEmail">
                             <Form.Label style={{ width: "50%" }}>Parent Email</Form.Label>

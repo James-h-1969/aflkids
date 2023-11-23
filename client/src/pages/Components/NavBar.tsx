@@ -1,7 +1,7 @@
 //IMPORTS
 import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 import "./Components.css";
-import logo from "/assets/AFLKidsLogo.png";
+import logo from "/assets/aflkidsLogo.png";
 import { useCart } from "../context/cartContext";
 import useMediaQueries from "media-queries-in-react";
 import { Link } from "react-router-dom";
@@ -19,7 +19,7 @@ export default function NavBar() {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Brand className="navbar-brand-custom">
             <Link to="/">
-            <Image alt="logo" src={logo} className="navbar-logo" style={{width:"200px"}}/>
+            <Image alt="logo" src={logo} className="navbar-logo" style={{width:"400px"}}/>
             </Link>
           </Navbar.Brand>
           <Navbar.Collapse id="responsive-navbar-nav">

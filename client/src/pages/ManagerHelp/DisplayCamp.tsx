@@ -4,7 +4,7 @@ import { Button, Form } from "react-bootstrap"
 import { useState} from "react"
 import ShowKids from "./ShowKids";
 import { locations } from "../../types/campType";
-import { backendLink } from "../../globalVar";
+import { ColourScheme, backendLink } from "../../globalVar";
 
 type displayCampType = {
     val: CampType
@@ -163,7 +163,7 @@ export default function DisplayCamp({val}: displayCampType) {
                         <div style={{ fontWeight: "bold" }}>{val.date}</div>
                         <div>{val.times}</div>
                         <div className="mb-3">{val.ages}</div>
-                        <Button onClick={() => setIsUpdating(true)}style={{backgroundColor:"#46768E", border:"transparent", width:"200px", marginBottom:"20px"}}>Edit</Button>
+                        <Button onClick={() => setIsUpdating(true)}style={{backgroundColor:ColourScheme.defaultColour, border:"transparent", width:"200px", marginBottom:"20px"}}>Edit</Button>
                         <Button className="bg-danger" style={{border:"transparent", width:"200px"}} onClick={() => deleteCamp()}>Delete Camp</Button>
                         { isUpdating ? <div style={{position:"absolute", width:"400px", height:"500px", backgroundColor:"grey", borderRadius:"10px", padding:"20px", zIndex:"100"}}>
             <div className="circle" onClick={() => setIsUpdating(false)}><div className="plus">x</div>
@@ -225,7 +225,7 @@ export default function DisplayCamp({val}: displayCampType) {
                         <div className="pb-1" style={{fontWeight:"bold"}}>
                             Kids: {getChildList(val.kidsDay1, val.kidsDay2).length}
                         </div>
-                        <Button onClick={() => changeArchive(val.name, !val.archived)} style={{marginRight:"20px", backgroundColor:"#46768E", border:"transparent"}}>Change Status</Button>
+                        <Button onClick={() => changeArchive(val.name, !val.archived)} style={{marginRight:"20px", backgroundColor:ColourScheme.defaultColour, border:"transparent"}}>Change Status</Button>
                         <ShowKids kids={getChildList(val.kidsDay1, val.kidsDay2)}/>
                     </div>
     )

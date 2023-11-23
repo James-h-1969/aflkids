@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { InputGroup, FormControl } from "react-bootstrap";
 import useMediaQueries from "media-queries-in-react";
+import { ColourScheme } from "../../../globalVar";
 
 type PrivateSessionTypeProps = {
     showAdd: (show:boolean) => void;
@@ -51,7 +52,7 @@ function PrivateSessionType({showAdd, step3}:PrivateSessionTypeProps){
     }
 
     return(
-        <div className="" style={{backgroundColor:"rgb(222, 222, 231)", borderRadius:"20px", margin:mediaQueries.mobile?"20px":"40px", padding:mediaQueries.mobile?"20px":"40px"}}>
+        <div className="" style={{backgroundColor:ColourScheme.defaultColour, borderRadius:"20px", margin:mediaQueries.mobile?"20px":"40px", padding:mediaQueries.mobile?"20px":"40px"}}>
             <h1><span className='step1'>Step 3: Pick Session Type</span></h1>
             <div className="d-flex pt-2 justify-content-around gap-2" style={{padding:mediaQueries.mobile?"0px":"20px"}}>
                 <div className={isActive[0] ? "session-type-active": "session-type-deactive"} style={{width:mediaQueries.mobile?"60px":"180px", paddingTop:mediaQueries.mobile?"10px":"20px"}} onClick={() => handleClick(0,1)}>

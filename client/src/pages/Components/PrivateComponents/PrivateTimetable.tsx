@@ -3,6 +3,7 @@ import { getDates, getMonthName, getMonthNum, getYear, getCurrentDayNum } from "
 import "../Components.css";
 import { ArrowRight, ArrowLeft } from "react-bootstrap-icons";
 import useMediaQueries from "media-queries-in-react";
+import { ColourScheme } from "../../../globalVar";
 
 type PrivateTimetableProps = {
     showTypes: (show:boolean) => void;
@@ -211,7 +212,7 @@ function PrivateTimetable({showTypes, step2, location}:PrivateTimetableProps){
                 </div>
                 <div className="d-flex justify-content-around pt-3">
                     <div className="d-flex">
-                        <div className="rounded-circle me-4" style={{backgroundColor:"#46768E", width:mediaQueries.mobile?"20px":"30px", height:mediaQueries.mobile?"20px":"30px"}}>
+                        <div className="rounded-circle me-4" style={{backgroundColor:ColourScheme.defaultColour, width:mediaQueries.mobile?"20px":"30px", height:mediaQueries.mobile?"20px":"30px"}}>
                         </div>
                         Current Day
                     </div>

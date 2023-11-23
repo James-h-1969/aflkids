@@ -1,5 +1,6 @@
 import { Form, Button } from "react-bootstrap";
 import { useState } from "react";
+import { ColourScheme, backendLink } from "../../globalVar";
 
 
 export default function ManagerLogin(){
@@ -36,7 +37,7 @@ export default function ManagerLogin(){
             body: JSON.stringify(passBody),
           };
 
-        const response = await fetch("https://aflkids-backend.onrender.com/managercheckpassword", requestOptions);
+        const response = await fetch(`${backendLink}/managercheckpassword`, requestOptions);
         if (response.ok){
             console.log("Correct Password");
             sessionStorage.setItem('isLoggedin', "True");
@@ -59,7 +60,7 @@ export default function ManagerLogin(){
                     style={{fontSize:"15px"}}
                     />
                 </Form.Group>
-                <Button type="submit" style={{fontWeight:"normal", fontFamily:"Rubik", backgroundColor:"#46768E", border:"transparent", width:"300px"}}>Login</Button>
+                <Button type="submit" style={{fontWeight:"normal", fontFamily:"Rubik", backgroundColor:ColourScheme.defaultColour, border:"transparent", width:"300px"}}>Login</Button>
             </Form>    
             { incorrect ?
             <div className="d-flex justify-content-center mb-5 gap-5" style={{color:"red"}}>

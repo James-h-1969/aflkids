@@ -1,7 +1,7 @@
 .circle {
     width: 50px;
     height: 50px;
-    background-color: #46768E;
+    background-color: #1E2874;
     border-radius: 50%; /* Makes the div a circle by setting border-radius to 50% */
     display: flex;
     align-items: center;

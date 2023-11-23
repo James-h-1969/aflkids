@@ -7,6 +7,7 @@ import ball from "/assets/ball.png"
 import useMediaQueries from "media-queries-in-react";
 import "./Home.css";
 import { Link } from "react-router-dom";
+import { ColourScheme } from "../globalVar";
 
 
 
@@ -30,7 +31,7 @@ function Home({ manageLogged}:HomeProps){
         <>
             <NavBar />
             <div className="ps-3" style={{marginTop:"110px", marginLeft:mediaQueries.mobile?"0px":"30px"}}>
-                <h1><span className="mt-5" style={{fontSize:mediaQueries.mobile?"30px":"70px", fontWeight:"bold", fontFamily:"Rubik"}}>Helping kids reach their{!mediaQueries.mobile?<br />:<></>} full <span style={{color:"#46768E"}}>AFL</span> potential</span></h1>
+                <h1><span className="mt-5" style={{fontSize:mediaQueries.mobile?"30px":"70px", fontWeight:"bold", fontFamily:"Rubik"}}>Helping kids reach their{!mediaQueries.mobile?<br />:<></>} full <span style={{color:ColourScheme.defaultColour}}>AFL</span> potential</span></h1>
             </div>
             <div className="ps-3">
                 <a><span className="" style={{fontSize:mediaQueries.mobile?"20px":"30px", paddingLeft:mediaQueries.mobile?"0px":"30px", fontWeight:"bold", fontFamily:"Rubik"}}>AFL Holiday Camps, classes, and personal coaching</span></a>
@@ -47,11 +48,11 @@ function Home({ manageLogged}:HomeProps){
             {manageLogged ? 
             <div className="d-flex justify-content-center gap-5">
                 <Link to="/manager" className="d-flex justify-content-center gap-5 mb-3" style={{ textDecoration: 'none' }}>
-                    <Button style={{ fontWeight: "normal", fontFamily: "Rubik", backgroundColor: "#46768E", border: "transparent" }}>
+                    <Button style={{ fontWeight: "normal", fontFamily: "Rubik", backgroundColor: ColourScheme.defaultColour, border: "transparent" }}>
                         Manage AFLKids
                     </Button>
                 </Link>
-                <Button onClick={() => logOut()} style={{ fontWeight: "normal", fontFamily: "Rubik", backgroundColor: "#46768E", border: "transparent", height:"80%" }}>
+                <Button onClick={() => logOut()} style={{ fontWeight: "normal", fontFamily: "Rubik", backgroundColor: ColourScheme.defaultColour, border: "transparent", height:"80%" }}>
                         Log Out
                 </Button>
             </div>
