@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 import "./manager.css"
 import { CampType } from "../types/campType";
 import DisplayCamp from "./ManagerHelp/DisplayCamp";
-import CoachSection from "./ManagerHelp/CoachSection";
+// import CoachSection from "./ManagerHelp/CoachSection";
 import ParentSection from "./ManagerHelp/ParentSection";
 import { backendLink, ColourScheme } from "../globalVar";
 
