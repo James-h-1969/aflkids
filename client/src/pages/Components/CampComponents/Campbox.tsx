@@ -8,7 +8,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import useMediaQueries from "media-queries-in-react";
-import { backendLink } from "../../../globalVar";
+import { ColourScheme, backendLink } from "../../../globalVar";
 
 type CampboxProps = {
     name: string,
@@ -107,7 +107,7 @@ function Campbox ({name, Location, ages, date, times, Price, address, locPic, in
     const isButtonDisabled = !(childName && childAge && club  && (selectedOption != "Choose Days"));
     
     return(
-        <div className="m-3 pb-4 " style={{backgroundColor:"rgb(70, 118, 142)", fontFamily:"Rubik", borderRadius:"15px", paddingLeft:mediaQueries.mobile?"0px":"30px", paddingRight:mediaQueries.mobile?"10px":"30px"}}>
+        <div className="m-3 pb-4 " style={{backgroundColor:ColourScheme.defaultColour, fontFamily:"Rubik", borderRadius:"15px", paddingLeft:mediaQueries.mobile?"0px":"30px", paddingRight:mediaQueries.mobile?"10px":"30px", color:"white"}}>
             <div className="ps-4 w-10 d-flex justify-content-between" style={{paddingTop:mediaQueries.mobile?"17px":"30px"}}>
                 <div className="text-center d-flex flex-column" style={{width:"50%"}}>
                     <span className="mb-2" style={{fontWeight:"bold", fontSize:mediaQueries.mobile?"15px":"30px", color:"white"}}>{name}</span>
