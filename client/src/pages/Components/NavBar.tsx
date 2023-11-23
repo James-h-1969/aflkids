@@ -4,6 +4,7 @@ import "./Components.css";
 import { useCart } from "../context/cartContext";
 import useMediaQueries from "media-queries-in-react";
 import { Link } from "react-router-dom";
+import logo from "/assets/aflkidsLogo.png";
 
 export default function NavBar() {
   const {openCart, cartQuantity} = useCart();
@@ -18,7 +19,7 @@ export default function NavBar() {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Brand className="navbar-brand-custom">
             <Link to="/">
-            <Image alt="logo" src="/assets/aflkidsLogo.png" className="navbar-logo" style={{width:"400px"}}/>
+            <Image alt="logo" src={logo} className="navbar-logo" style={{width:"400px"}}/>
             </Link>
           </Navbar.Brand>
           <Navbar.Collapse id="responsive-navbar-nav">
@@ -60,7 +61,7 @@ export default function NavBar() {
       <Navbar expand="true" fixed="top" variant="light" style={{ background: 'white', height:"100px"}}>
       <Navbar.Brand className="navbar-brand-custom" style={{marginLeft:"20px", marginBottom:"10px"}}>
         <Link to="/">
-        <Image alt="logo" src="/assets/aflkidsLogo.png" className="navbar-logo" style={{width:"150px"}}/>
+        <Image alt="logo" src={logo} className="navbar-logo" style={{width:"150px"}}/>
         </Link>
       </Navbar.Brand>
       { (cartQuantity > 0) ? 
