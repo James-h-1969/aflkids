@@ -3,6 +3,7 @@ import { useCart } from "../context/cartContext";
 import {CartItem} from "./CartItem";
 import storeItems from "../data/items.json"
 import { useState } from "react";
+import { backendLink } from "../../globalVar";
 
 type CartProps = {
     isOpen: boolean;
@@ -29,7 +30,7 @@ export function Cart({isOpen}:CartProps){
 
     async function handleCheckoutButton(){
         closeCart();
-        fetch('https://aflkids-backend.onrender.com/create-checkout-session', {
+        fetch(`${backendLink}/create-checkout-session`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
