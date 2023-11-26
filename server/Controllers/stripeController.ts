@@ -69,26 +69,6 @@ async function doesCustomerExist(customerEmail:string, customerName:string){
     }
 }
 
-async function addChildToCamp(name:string, id:number, details:Object, index:number, day:string){
-    const filter =  { name: name };
-    let update = {};
-    if (id == 11 || id == 17){ //holiday camp 
-        update = { $push: {kidsDay1: details, kidsDay2: details }};
-    } else {
-        if (day === "1"){
-            update = { $push: {kidsDay1: details} };
-        } else if (day === "2") {
-            update = { $push: {kidsDay2: details} };
-        }
-    }  
-    try {
-        const updatedCamp = await Camp.findOneAndUpdate(filter, update, { new:true, runValidators:true});
-        console.log("Successfully updated the camp")
-    } catch (error) {
-        console.error("Error updating camp:", error);
-    }
-}
-
 export const stripeController = {
     createSession: async (req: Request, res: Response) => { //function for handling when a payment session is beginning
         try {
@@ -170,6 +150,9 @@ export const stripeController = {
                             parent: parent
                         }
                         const addingCamp = await addChildToCamp(detailsOfKid.purchaseName[0], val.id, campKidDetails, index, detailsOfKid.purchaseName[1]);
+                        if (val.id == 11){
+                            break;
+                        }
                     } else if (val.id == 9 || val.id == 10){ //buying tokens
                         const makingTokensForPlan = await makeTokenForPlan(val.id, customerEmail);                   
                     } else if (val.id == 14 || val.id == 15){ //using tokens
@@ -223,5 +206,26 @@ export const stripeController = {
             response.status(500).send('Unexpected error occurred.');
           }
         }
+    }
+}
+
+// Function to add child to specific camp
+async function addChildToCamp(name:string, id:number, details:Object, index:number, day:string){
+    const filter =  { name: name }; //find the required camp
+    let update = {};
+    if (id == 11 || id == 17){ //holiday camp 
+        update = { $push: {kidsDay1: details, kidsDay2: details }};
+    } else {
+        if (day === "1"){
+            update = { $push: {kidsDay1: details} };
+        } else if (day === "2") {
+            update = { $push: {kidsDay2: details} };
+        }
+    }  
+    try {
+        const updatedCamp = await Camp.findOneAndUpdate(filter, update, { new:true, runValidators:true});
+        console.log("Successfully updated the camp")
+    } catch (error) {
+        console.error("Error updating camp:", error);
     }
 }
