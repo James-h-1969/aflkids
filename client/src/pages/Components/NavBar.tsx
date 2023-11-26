@@ -4,7 +4,7 @@ import "./Components.css";
 import { useCart } from "../context/cartContext";
 import useMediaQueries from "media-queries-in-react";
 import { Link } from "react-router-dom";
-import logo from "/assets/aflkidsLogo.png";
+import logo from "/assets/AflKidsLogo.png";
 
 export default function NavBar() {
   const {openCart, cartQuantity} = useCart();
