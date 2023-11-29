@@ -5,7 +5,7 @@ import Coach from "../Models/Coach";
 import generateHashedTokens  from "../util/randomToken";
 import Tokens from "../Models/Tokens";
 import Product from "../Models/Product";
-import { ses, senderEmail } from "../util/emails";
+import { sendEmail } from "../util/emails";
 import { makeTokenForPlan } from "../util/randomToken"
 
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
@@ -72,6 +72,8 @@ async function doesCustomerExist(customerEmail:string, customerName:string){
 export const stripeController = {
     createSession: async (req: Request, res: Response) => { //function for handling when a payment session is beginning
         try {
+            console.log("Beginning Checkout Session...");
+
             const customerName = req.body.customerName;
             const customerEmail = req.body.customerEmail;
 
@@ -114,9 +116,13 @@ export const stripeController = {
     },
     handleSuccessfulPayment: async (request: Request, response: Response) => { //function for successful payment
         const sig = request.headers['stripe-signature'];
+
+        const EMAIL_TO_TOM_ON = false;
+
         try {
           const event = stripe.webhooks.constructEvent(request.body, sig, process.env.STRIPE_ENDPOINT_KEY);
-      
+          console.log("Event has been found successfully...");
+        
           const data = event.data.object;
           const eventType = event.type;
      
@@ -134,12 +140,13 @@ export const stripeController = {
     
             const { metadata } = data; //potentially grab parent name and email here?
             const cartItems = metadata.cartItems;
+
+            // get the meta data as an array of JSON items
             const JSONStuff = JSON.parse(cartItems);
        
-            JSONStuff.forEach(async (val:Item) => {
-                let index = 0;
-                const detailsOfKid = val.details[index];
-                while (index < val.details.length){            
+            JSONStuff.forEach(async (val:Item) => { // for each item in the cart
+                for (let i = 0; i < val.quantity; i++){  
+                    const detailsOfKid = val.details[i];        
                     if (val.id == 11 || val.id == 16 || val.id == 17){ //holiday camp 2 day or 1 day
                         const campKidDetails = {
                             childName: detailsOfKid.childName,
@@ -149,50 +156,48 @@ export const stripeController = {
                             purchaseName: detailsOfKid.purchaseName,
                             parent: parent
                         }
-                        const addingCamp = await addChildToCamp(detailsOfKid.purchaseName[0], val.id, campKidDetails, index, detailsOfKid.purchaseName[1]);
-                        if (val.id == 11){
-                            break;
+                        // check if they are already in the camp
+                        let isKidAlreadyInCamp = false;
+                        if (val.id == 16){ // one day
+                            const dayComing = detailsOfKid.purchaseName[1];
+                            if (dayComing === "1"){
+                                isKidAlreadyInCamp = await isKidInCamp(detailsOfKid.childName, detailsOfKid.purchaseName[0], detailsOfKid.purchaseName[1])
+                            }
+                            if (dayComing === "2"){
+                                isKidAlreadyInCamp = await isKidInCamp(detailsOfKid.childName, detailsOfKid.purchaseName[0], detailsOfKid.purchaseName[1])
+                            }
+                        } else {
+                            isKidAlreadyInCamp = await isKidInCamp(detailsOfKid.childName, detailsOfKid.purchaseName[0],"")
+                        }
+                        if (!isKidAlreadyInCamp){
+                            const addingChild = await addChildToCamp(detailsOfKid.purchaseName[0], val.id, campKidDetails, detailsOfKid.purchaseName[1]);
                         }
                     } else if (val.id == 9 || val.id == 10){ //buying tokens
                         const makingTokensForPlan = await makeTokenForPlan(val.id, customerEmail);                   
                     } else if (val.id == 14 || val.id == 15){ //using tokens
                         // const usingTokensForPlan = await useTokenForPlan(val.details[index].purchaseName[3], val.id);
                     }
-                    index++;
+
                     }
+                    
                 });
                     
-            const theyBoughtPromises = JSONStuff.map(async (val: Item) => {
-                let item = await Product.findOne({ id: val.id });
-                let details = JSON.stringify(val.details);
-                return `${item?.name} : ${details}`;
-            });
-            
-            const theyBoughtArray = await Promise.all(theyBoughtPromises);
-            const theyBought = theyBoughtArray.join(",<br /><br />");
-      
-            let emailList = ["Tomoleary@aflkids.com.au"];
-            
-            const params = {
-              Destination: {
-                  ToAddresses: emailList,
-              },
-              Message: {
-                  Body: {
-                      Html: { Data: `${customerEmail} just purchased <br /><br />${theyBought}<br /><br />Good stuff.` }
-                  },
-                  Subject: { Data: "AFLKIDS PURCHASE!" }
-              },
-              Source: senderEmail
-            };
-        
-            try {
-                const result = await ses.sendEmail(params).promise();
-                response.status(200).send(`Email sent to ${customerEmail}. Message ID: ${result.MessageId}`).end();
-            } catch (error) {
-                response.status(200).send(`Error sending email to ${customerEmail}: ${error}`).end();
+            console.log("escaped the while loop");
+            if (EMAIL_TO_TOM_ON){
+                const theyBoughtPromises = JSONStuff.map(async (val: Item) => {
+                    let item = await Product.findOne({ id: val.id });
+                    let details = JSON.stringify(val.details);
+                    return `${item?.name} : ${details}`;
+                });
+                
+                // join the array into something readable
+                const theyBoughtArray = await Promise.all(theyBoughtPromises);
+                const theyBought = theyBoughtArray.join(",<br /><br />");
+                let sendingEmail = await sendEmail(customerEmail, theyBought, response);
             }
-            response.status(200).send('Received').end();
+
+            console.log("Finished reacting to the successful purchase")
+            response.status(200).send('Received and made appropriate updates').end();
           
           }
         
@@ -210,7 +215,7 @@ export const stripeController = {
 }
 
 // Function to add child to specific camp
-async function addChildToCamp(name:string, id:number, details:Object, index:number, day:string){
+async function addChildToCamp(name:string, id:number, details:Object, day:string){
     const filter =  { name: name }; //find the required camp
     let update = {};
     if (id == 11 || id == 17){ //holiday camp 
@@ -228,4 +233,29 @@ async function addChildToCamp(name:string, id:number, details:Object, index:numb
     } catch (error) {
         console.error("Error updating camp:", error);
     }
+}
+
+async function isKidInCamp(kidName: string, campName: string, day: string){
+    const camp = await Camp.findOne({ name: campName });
+
+    if (camp) {
+        let isKidInCamp = false;
+
+        if (day === "1"){
+            isKidInCamp = camp.kidsDay1.some(kid => kid.childName === kidName);
+        } else if (day === "2"){
+            isKidInCamp = camp.kidsDay2.some(kid => kid.childName === kidName);
+        } else {
+            isKidInCamp = camp.kidsDay1.some(kid => kid.childName === kidName) || camp.kidsDay2.some(kid => kid.childName === kidName);        
+        }
+
+        if (isKidInCamp) {
+            console.log(`${kidName} is in ${campName} camp's list.`);
+            return true
+        } else {
+            console.log(`${kidName} is not in ${campName} camp's list.`);
+            return false
+        }
+    }
+    return false;
 }

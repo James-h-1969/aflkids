@@ -4,119 +4,119 @@
         "name": "Hoodie",
         "priceString": "$34.99",
         "priceNum": 34.99,
-        "imgUrl": "/assets/AFLkids hoodie.jpg"
+        "imgUrl": "/assets/Merch/AFLkids hoodie.jpg"
     },
     {
         "id":2,
         "name": "Training Shirt",
         "priceString": "$24.99",
         "priceNum": 24.99,
-        "imgUrl": "/assets/AFLkids playing shirt.jpg"
+        "imgUrl": "/assets/Merch/AFLkids playing shirt.jpg"
     }, 
     {
         "id":3,
         "name": "1 on 1 Private",
         "priceString": "$80.00",
         "priceNum": 80.00,
-        "imgUrl": "/assets/camps.jpg"
+        "imgUrl": "/assets/Imgs/camps.jpg"
     }, 
     {
         "id":4,
         "name": "2 on 1 Private",
         "priceString": "$110.00",
         "priceNum": 110.00,
-        "imgUrl": "/assets/camps.jpg"
+        "imgUrl": "/assets/Imgs/camps.jpg"
     }, 
     {
         "id":5,
         "name": "3 on 1 Private",
         "priceString": "$140.00",
         "priceNum": 140.00,
-        "imgUrl": "/assets/camps.jpg"
+        "imgUrl": "/assets/Imgs/camps.jpg"
     }, 
     {
         "id":6,
         "name": "4 on 1 Private",
         "priceString": "$170.00",
         "priceNum": 170.00,
-        "imgUrl": "/assets/camps.jpg"
+        "imgUrl": "/assets/Imgs/camps.jpg"
     }, 
     {
         "id":7,
         "name": "5 on 1 Private",
         "priceString": "$200.00",
         "priceNum": 200.00,
-        "imgUrl": "/assets/camps.jpg"
+        "imgUrl": "/assets/Imgs/camps.jpg"
     }, 
     {
         "id":8,
         "name": "6 on 1 Private",
         "priceString": "$230.00",
         "priceNum": 230.00,
-        "imgUrl": "/assets/camps.jpg"
+        "imgUrl": "/assets/Imgs/camps.jpg"
     }, 
     {
         "id":9,
         "name": "1 on 1 Private Plan",
         "priceString": "$375.00",
         "priceNum": 375.00,
-        "imgUrl": "/assets/1on1.png"
+        "imgUrl": "/assets/Imgs/1on1.png"
     }, 
     {
         "id":10,
         "name": "2 on 1 Private Plan",
         "priceString": "$500.00",
         "priceNum": 500.00,
-        "imgUrl": "/assets/camps.jpg"
+        "imgUrl": "/assets/Imgs/camps.jpg"
     },
     {
         "id":11,
         "name": "Holiday Camp",
         "priceString": "$150.00",
         "priceNum": 150.00,
-        "imgUrl": "/assets/camps.jpg"
+        "imgUrl": "/assets/Imgs/camps.jpg"
     },
     {
         "id":12,
         "name": "1 Academy Prep Session",
         "priceString": "$40.00",
         "priceNum": 40.00,
-        "imgUrl": "/assets/camps.jpg"
+        "imgUrl": "/assets/Imgs/camps.jpg"
     },
     {
         "id":13,
         "name": "4 Academy Prep Sessions",
         "priceString": "$130.00",
         "priceNum": 130.00,
-        "imgUrl": "/assets/camps.jpg"
+        "imgUrl": "/assets/Imgs/camps.jpg"
     },
     {
         "id":14,
         "name": "1 on 1 Private (Plan)",
         "priceString": "$0.00",
         "priceNum": 0.00,
-        "imgUrl": "/assets/camps.jpg"
+        "imgUrl": "/assets/Imgs/camps.jpg"
     }, 
     {
         "id":15,
         "name": "2 on 1 Private (Plan)",
         "priceString": "$0.00",
         "priceNum": 0.00,
-        "imgUrl": "/assets/camps.jpg"
+        "imgUrl": "/assets/Imgs/camps.jpg"
     },
     {
         "id":16,
         "name": "Holiday Camp (1 day)",
         "priceString": "$100.00",
         "priceNum": 100.00,
-        "imgUrl": "/assets/camps.jpg"
+        "imgUrl": "/assets/Imgs/camps.jpg"
     },
     {
         "id":17,
         "name": "Discounted Camp",
         "priceString": "$100.00",
         "priceNum": 100.00,
-        "imgUrl": "/assets/camps.jpg"
+        "imgUrl": "/assets/Imgs/camps.jpg"
     }
 
 ]
