@@ -21,13 +21,18 @@ type Locations = {
     [key: string]: Location; // Index signature allowing any string as key
 };
 
+// Uses this to automatically pull the address and location of the camp
 export const locations: Locations = {
-    "Weldon": {
+    "Weldon Oval": {
         address: "Curl Curl, 2099",
         locPic: "/assets/Maps/weldon.png"
     }, 
-    "Gore Hill": {
+    "Gore Hill Oval": {
         address: "St Leonards, 2065",
         locPic: "/assets/Maps/gore.png"
+    },
+    "Accron Oval": {
+        address: "St Ives, 2075",
+        locPic: "/assets/Maps/accron.png"
     }
 }

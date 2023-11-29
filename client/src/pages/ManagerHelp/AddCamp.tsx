@@ -1,7 +1,11 @@
 import { Button, Form } from "react-bootstrap";
 import { useState } from "react";
 import { locations } from "../../types/campType";
-import { backendLink } from "../../globalVar";
+import { ColourScheme, backendLink } from "../../globalVar";
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import { Cpu } from "react-bootstrap-icons";
 
 
 type AddCampProps = {
@@ -38,6 +42,7 @@ export default function AddCamp({setShowingAddCamp}:AddCampProps){
             locPic_: Pic
         }
 
+
         const requestOptions: RequestInit = {
             method: 'POST',
             headers: {
@@ -51,6 +56,13 @@ export default function AddCamp({setShowingAddCamp}:AddCampProps){
 
         location.reload();
     }
+
+    const handleOptionSelect = (eventKey: string | null) => {
+        if (eventKey) {
+          setCampLocation(eventKey);
+        }
+    };
+
 
     return(
         <div className="p-3" style={{position:"absolute", width:"400px", height:"500px", backgroundColor:"grey", borderRadius:"15px", left:"30vw", zIndex:'100'}}>
@@ -95,16 +107,22 @@ export default function AddCamp({setShowingAddCamp}:AddCampProps){
                     style={{fontSize:"15px"}}
                     />
                 </Form.Group>
-                <Form.Group className="d-flex mb-3" controlId="formBasicPassword">
-                    <Form.Label style={{ width: "60%", marginRight:"20px",fontWeight:"normal", fontFamily:"Rubik" }}>Camp Location</Form.Label>
-                    <Form.Control
-                    placeholder="Enter Camp Location (Weldon/Gore)"
-                    value={campLocation}
-                    onChange={(e) => setCampLocation(e.target.value)}
-                    style={{fontSize:"15px"}}
-                    />
-                </Form.Group>
-                <Button type="submit">Add Camp</Button>
+                Select Location
+                <DropdownButton
+                    as={ButtonGroup}
+                    size={"lg"}
+                    title={campLocation}
+                    onSelect={handleOptionSelect}
+                    variant="secondary"
+                    style = {{width:'100%', paddingTop:"20px", marginBottom:"20px"}}
+                >
+                    <Dropdown.Item eventKey="Weldon Oval">Weldon Oval</Dropdown.Item>
+                    <Dropdown.Item eventKey="Accron Oval">Accron Oval</Dropdown.Item>
+                    <Dropdown.Item eventKey="Gore Hill Oval">Gore Hill Oval</Dropdown.Item>
+                </DropdownButton>
+                <div className="d-flex justify-content-center">
+                    <Button type="submit" style={{backgroundColor:ColourScheme.defaultColour, border: "transparent"}}>Add Camp</Button>
+                </div>
             </Form>
         </div>
     )
