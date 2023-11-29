@@ -3,7 +3,7 @@ import Header from "./Components/Header";
 import UpComingCamps from "./Components/CampComponents/UpcomingCamps";
 import "./Camps.css";
 import useMediaQueries from "media-queries-in-react";
-import campVideo from "/assets/aflkidsvid.mp4";
+import campVideo from "/assets/Videos/aflkidsvid.mp4";
 import Footer from "./Components/Footer"
 
 function Camps(){

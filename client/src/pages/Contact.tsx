@@ -1,10 +1,10 @@
 import NavBar from "./Components/NavBar"
 import Header from "./Components/Header"
-import insta from "/assets/instagram.png";
+import insta from "/assets/Logos/instagram.png";
 // import smitPhoto from "/assets/CampPhotos/IMG_3338.jpg"
 // import kalePhoto from "/assets/CampPhotos/IMG_0603.jpg"
 // import hannahPhoto from "/assets/CampPhotos/IMG_2326.jpg"
-import facebook from "/assets/facebook.png"
+import facebook from "/assets/Logos/facebook.png"
 import { Image } from "react-bootstrap";
 import TeamCard from "./Components/ContactComponents/TeamCard";
 import { useState } from "react";
@@ -63,7 +63,7 @@ export default function Contact() {
             position: "Key/Small Forward",
             phone: "+61 431 036 199",
             quote: "I enjoy seeing kids find the same spark of enjoyment I gained from footy, as well as watching smiles on faces when thy finally execute a new skill they've been practicing.",
-            img: "/assets/woolf.jpg",
+            img: "/assets/Imgs/woolf.jpg",
             coachingExperience: ["Forest Lions Coach U12 Head Coach", "Forest Lions U12-U15 Boys assisttant Coach 2019-2022", "Stella Maris Coach", "St Lukes Coach", "AFL NSW/ACT Coaching experience"],
             playingExperience: ["Forest Lion Junior", "Manly Wolves Premier Division at 16 y.o", "Swams acade,y Graduate", "All Schools Team NSW", "NSW Rams player"]
         }

@@ -1,6 +1,6 @@
 import useMediaQueries from "media-queries-in-react";
 import campPhoto from "/assets/CampPhotos/IMG_2368.jpg"
-import soloPhoto from "/assets/usePhoto.jpg";
+import soloPhoto from "/assets/Imgs/usePhoto.jpg";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import "./home.css"

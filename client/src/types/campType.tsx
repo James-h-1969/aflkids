@@ -24,10 +24,10 @@ type Locations = {
 export const locations: Locations = {
     "Weldon": {
         address: "Curl Curl, 2099",
-        locPic: "/assets/weldon.png"
+        locPic: "/assets/Maps/weldon.png"
     }, 
     "Gore Hill": {
         address: "St Leonards, 2065",
-        locPic: "/assets/gore.png"
+        locPic: "/assets/Maps/gore.png"
     }
 }

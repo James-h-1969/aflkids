@@ -1,7 +1,7 @@
 import { Row, Col } from "react-bootstrap";
 import PlanItem from "./PlanItem";
-import Oneon1 from "/assets/1on1.png";
-import Banner from "/assets/banner.jpg"
+import Oneon1 from "/assets/Imgs/1on1.png";
+import Banner from "/assets/Imgs/banner.jpg"
 import useMediaQueries from "media-queries-in-react";
 import { ColourScheme } from "../../../globalVar";
 
