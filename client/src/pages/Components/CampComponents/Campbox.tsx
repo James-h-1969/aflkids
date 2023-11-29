@@ -110,16 +110,25 @@ function Campbox ({name, Location, ages, date, times, Price, address, locPic, in
         <div className="m-3 pb-4 " style={{backgroundColor:ColourScheme.defaultColour, fontFamily:"Rubik", borderRadius:"15px", paddingLeft:mediaQueries.mobile?"0px":"30px", paddingRight:mediaQueries.mobile?"10px":"30px", color:"white"}}>
             <div className="ps-4 w-10 d-flex justify-content-between" style={{paddingTop:mediaQueries.mobile?"17px":"30px"}}>
                 <div className="text-center d-flex flex-column" style={{width:"50%"}}>
-                    <span className="mb-2" style={{fontWeight:"bold", fontSize:mediaQueries.mobile?"15px":"30px", color:"white"}}>{name}</span>
+                    <span className="mb-2" style={{fontWeight:"bold", fontSize:mediaQueries.mobile?"12px":"30px", color:"white"}}>{name}</span>
                     <span className="mb-1" style={{fontWeight:"400", fontSize:mediaQueries.mobile?"20px":"70px"}}>${Price.toString()}</span>
                     <span style={{fontWeight:"400", fontSize:mediaQueries.mobile?"10px":"30px"}}>{ages}</span>
                     <span style={{fontWeight:"400", fontSize:mediaQueries.mobile?"10px":"20px"}}>{date}</span>
                     <span className="mb-3" style={{fontWeight:"400", fontSize:mediaQueries.mobile?"10px":"20px"}}>{times}</span>
-                    {!isBooking?<span className="" style={{fontWeight:"400", fontSize:mediaQueries.mobile?"10px":"40px"}}>{Location}</span>:<></>}
-                    <Button className="" style={{fontSize:mediaQueries.mobile?"10px":'30px', backgroundColor:"white", color:"black", width:"100%", marginTop:mediaQueries.mobile?"17px":"50px"}} onClick={() => setIsBooking(!isBooking)}>{!isBooking ? "Show more":"Hide"}</Button>
+                    <Button className="" style={{fontSize:mediaQueries.mobile?"10px":'30px', backgroundColor:"white", color:"black", width:mediaQueries?"180%":"100%", marginTop:mediaQueries.mobile?"5px":"50px"}} onClick={() => setIsBooking(!isBooking)}>{!isBooking ? "Show more":"Hide"}</Button>
                 </div>
                 <div>
-                    <Image src={imgs[index]} style={{contain:"cover", borderRadius:"10px", width:mediaQueries.mobile?"120px":"500px", height:mediaQueries.mobile?"110px":"400px", marginTop:mediaQueries.mobile?"40px":"0px", paddingLeft:mediaQueries.mobile?"10px":"0px"}}/>
+                <Image
+                    src={imgs[index]}
+                    style={{
+                        contain: "cover",
+                        width: mediaQueries.mobile ? "120px" : "500px",
+                        height: mediaQueries.mobile ? "110px" : "400px",
+                        marginTop: mediaQueries.mobile ? "20px" : "0px",
+                        paddingLeft: mediaQueries.mobile ? "10px" : "0px",
+                        borderRadius: "10px !important", // Add !important
+                    }}
+                />
                 </div>
             </div>
             { isBooking ? 
@@ -132,20 +141,20 @@ function Campbox ({name, Location, ages, date, times, Price, address, locPic, in
                             ensure skills are being matched. Namely, players from ages 5-8 will split from players aged 9-13
                             participating in two seperate camps.
                         </div>
-                        <div className="d-flex justify-content-between" style={{marginTop:mediaQueries.mobile?"30px":"50px"}}>
-                            <div className="" style={{textAlign:"center", fontSize:mediaQueries.mobile?"10px":"25px"}}>
+                        <div className="d-flex" style={{marginTop:mediaQueries.mobile?"10px":"50px"}}>
+                            <div className="" style={{textAlign:"center", fontSize:mediaQueries.mobile?"10px":"25px", paddingLeft:mediaQueries.mobile?"25px":""}}>
                                 <div>
                                     Location : <span className="ps-1" style={{fontWeight:"bold", fontSize:mediaQueries.mobile?"12px":"30px"}}>{Location}</span><br />
                                     {address}
                                 </div>
                                 <Image src={locPic} className="pt-4 ms-3" style={{width:mediaQueries.mobile?"100px":"400px", height:mediaQueries.mobile?"120px":"400px"}}/>
-                                {mediaQueries.mobile?<>
+                                {mediaQueries.mobile?<div>
                                         <div className="mt-3 d-flex justify-content-center gap-4">
                                             <div>
                                             Both Days<br/><span style={{fontSize:"20px"}}>$150</span>
                                             </div>
                                             <div>
-                                                One Day<br/><span style={{fontSize:mediaQueries.mobile?"20px":"50px"}}>$100</span>
+                                            One Day<br/><span style={{fontSize:mediaQueries.mobile?"20px":"50px"}}>$100</span>
                                             </div>
                                         </div>
                                         <span style={{fontSize:"10px"}}>Select which days you want<br/> to join (Select both for<br/> the full experience)</span>
@@ -160,8 +169,9 @@ function Campbox ({name, Location, ages, date, times, Price, address, locPic, in
                                             <Dropdown.Item eventKey="Both Days">Both Days</Dropdown.Item>
                                             <Dropdown.Item eventKey="Day One">Day One ({firstDate})</Dropdown.Item>
                                             <Dropdown.Item eventKey="Day Two">Day Two ({secondDate})</Dropdown.Item>
-                                        </DropdownButton></>:<></>}
+                                        </DropdownButton></div>:<></>}
                             </div>
+                            {!mediaQueries.mobile?
                             <div style={{fontSize:mediaQueries.mobile?"7px":"15px", textAlign:"center", width:"50%"}}>
     
                                     <Form className="mt-3">
@@ -244,14 +254,104 @@ function Campbox ({name, Location, ages, date, times, Price, address, locPic, in
                                             Add to cart
                                         </Button>
                                     </Form>
+                            
   
                            </div>
+                           :<></>}
                         </div>
+                        {mediaQueries.mobile?
+                            <div style={{fontSize:mediaQueries.mobile?"7px":"15px", textAlign:"center", width:"100%"}}>
+    
+                                    <Form className="mt-3">
+                                        <Form.Group className="d-flex mb-3" controlId="formBasicEmail">
+                                            <Form.Label style={{ width: "60%" }}>Child name</Form.Label>
+                                            <Form.Control
+                                            placeholder="Enter name"
+                                            value={childName}
+                                            onChange={(e) => setChildName(e.target.value)}
+                                            style={{fontSize:mediaQueries.mobile?"5px":"15px"}}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group className="d-flex mb-3" controlId="formBasicPassword">
+                                            <Form.Label style={{ width: "60%" }}>Child Age</Form.Label>
+                                            <Form.Control
+                                            placeholder="Enter Age"
+                                            value={childAge}
+                                            onChange={(e) => setChildAge(e.target.value)}
+                                            style={{fontSize:mediaQueries.mobile?"5px":"15px"}}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group className="d-flex mb-3" controlId="formBasicPassword">
+                                            <Form.Label style={{ width: "60%" }}>Club</Form.Label>
+                                            <Form.Control
+                                            placeholder="Enter Club"
+                                            value={club}
+                                            onChange={(e) => setClub(e.target.value)}
+                                            style={{fontSize:mediaQueries.mobile?"5px":"15px"}}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group className="d-flex mb-3" controlId="formBasicPassword">
+                                            <Form.Label style={{ width: "60%" }}>Comments for Coach</Form.Label>
+                                            <Form.Control
+                                            placeholder="Enter Comments"
+                                            value={comments}
+                                            onChange={(e) => setComments(e.target.value)}
+                                            style={{fontSize:mediaQueries.mobile?"5px":"15px"}}
+                                            />
+                                        </Form.Group>
+                                        {/* For the coupon code */}
+                                        <Form.Group className="d-flex mb-3" controlId="formBasicPassword">
+                                            <Form.Label style={{ width: "60%" }}>Coupon</Form.Label>
+                                            <Form.Control
+                                            placeholder="Enter Coupon Code (Leave empty if not)"
+                                            value={couponInput}
+                                            onChange={(e) => setCouponInput(e.target.value)}
+                                            style={{fontSize:mediaQueries.mobile?"5px":"15px"}}
+                                        />
+                                        </Form.Group>
+                                        {/*This will show a warning if an incorrect code is inputted */}
+                                        {validCode ? <a style={{color:"red"}}>Please input a valid code</a>:<></>}
+                                        {!mediaQueries.mobile?<>
+                                        <div className="mt-5 d-flex justify-content-around">
+                                            <div>
+                                            Both Days<br/><span style={{fontSize:mediaQueries.mobile?"20px":"50px"}}>$150</span>
+                                            </div>
+                                            <div>
+                                                One Day<br/><span style={{fontSize:mediaQueries.mobile?"20px":"50px"}}>$100</span>
+                                            </div>
+                                        </div>
+                                        Select which days you want to join (Select both for the full experience)
+                                        <DropdownButton
+                                            as={ButtonGroup}
+                                            size={mediaQueries.mobile?"sm":"lg"}
+                                            title={selectedOption}
+                                            onSelect={handleOptionSelect}
+                                            variant="secondary"
+                                            style = {{width:mediaQueries.mobile?"20%":'100%', paddingTop:"20px"}}
+                                        >
+                                            <Dropdown.Item eventKey="Both Days">Both Days</Dropdown.Item>
+                                            <Dropdown.Item eventKey="Day One">Day One ({firstDate})</Dropdown.Item>
+                                            <Dropdown.Item eventKey="Day Two">Day Two ({secondDate})</Dropdown.Item>
+                                        </DropdownButton></>:<></>}
+                                        <Button
+                                            className="mt-3"
+                                            style={{ backgroundColor: "white", color: "black", width: "100%", fontSize:mediaQueries.mobile?"10px":'30px' }}
+                                            onClick={() => handleAddingCart()}
+                                            disabled={isButtonDisabled}
+                                        >
+                                            Add to cart
+                                        </Button>
+                                    </Form>
+                            
+  
+                           </div>
+                           :<></>}
                     </div>
+                    
                 </div>
                 :
                 <>
-
+         
                 </>
             }
         </div>
