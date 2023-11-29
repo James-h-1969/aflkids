@@ -12,6 +12,7 @@ import { ColourScheme } from "../globalVar";
 
 
 
+
 type HomeProps = {
     manageLogged:boolean;
 }
@@ -40,23 +41,29 @@ function Home({ manageLogged}:HomeProps){
                 <Button className="mt-3" size={mediaQueries.mobile?"sm":"lg"} style={{backgroundColor:ColourScheme.defaultColour, border:"transparent", fontWeight:"bold"}}>Book now</Button>
             </Link>
             <div style={{backgroundColor:"#46768E"}}>
-                <img src={ball} style={{position:"absolute", left:"65%", top:"30vh", width:mediaQueries.mobile?"20%":"", height:mediaQueries.mobile?"7vh":"", zIndex:"100"}}/>
-                <div className="triangle"></div>
+                <img src={ball} style={{position:"absolute", left:"65%", top:"250px", width:mediaQueries.mobile?"":"", height:mediaQueries.mobile?"100px":"", zIndex:"100"}}/>
+                <div className="triangle" style={{ borderTop: mediaQueries.mobile ? '70px solid white' : '200px solid white' }}></div>
                 <HomeDeals />
             </div>
             <Footer />
-            {manageLogged ? 
-            <div className="d-flex justify-content-center gap-5">
-                <Link to="/manager" className="d-flex justify-content-center gap-5 mb-3" style={{ textDecoration: 'none' }}>
+            {!mediaQueries.mobile && (
+            <>
+                {manageLogged ? (
+                <div className="d-flex justify-content-center gap-5">
+                    <Link to="/manager" className="d-flex justify-content-center gap-5 mb-3" style={{ textDecoration: 'none' }}>
                     <Button style={{ fontWeight: "normal", fontFamily: "Rubik", backgroundColor: ColourScheme.defaultColour, border: "transparent" }}>
-                        Manage AFLKids
+                        Manage MultiSportKids
                     </Button>
-                </Link>
-                <Button onClick={() => logOut()} style={{ fontWeight: "normal", fontFamily: "Rubik", backgroundColor: ColourScheme.defaultColour, border: "transparent", height:"80%" }}>
-                        Log Out
-                </Button>
-            </div>
-            :<ManagerLogin />}
+                    </Link>
+                    <Button onClick={() => logOut()} style={{ fontWeight: "normal", fontFamily: "Rubik", backgroundColor: ColourScheme.defaultColour, border: "transparent", height: "80%" }}>
+                    Log Out
+                    </Button>
+                </div>
+                ) : (
+                <ManagerLogin />
+                )}
+            </>
+            )}
         </>
     )
 }

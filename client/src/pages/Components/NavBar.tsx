@@ -88,7 +88,7 @@ export default function NavBar() {
             </div>
             </Button>:<></>
         }
-      <Navbar.Toggle aria-controls="basic-navbar-nav" style={{position:"absolute", right:"30px", top:"30px"}}/>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" style={{position:"absolute", right:"70px", top:"30px"}}/>
       <Navbar.Collapse id="" style={{marginLeft:"180px", backgroundColor:"white", width:"200px"}}>
   
         <Nav className="ms-auto" style={{fontSize:"12px", border:"3px solid light grey"}}>
@@ -96,7 +96,7 @@ export default function NavBar() {
               <Nav.Link className="nav-link-custom" style={{padding:"10px"}} href="/camps">Holiday Camps</Nav.Link>
               <Nav.Link className="nav-link-custom" style={{padding:"10px"}} href="/private">Private Coaching</Nav.Link>
               {/* <Nav.Link className="nav-link-custom" href="/development">Academy Preparation</Nav.Link> */}
-              <Nav.Link className="nav-link-custom" style={{padding:"10px"}} href="/merch">Merch</Nav.Link>
+              {/* <Nav.Link className="nav-link-custom" style={{padding:"10px"}} href="/merch">Merch</Nav.Link> */}
               <Nav.Link className="nav-link-custom" style={{padding:"10px"}} href="/contact">Our Team</Nav.Link>
           </Nav>
       </Navbar.Collapse>
