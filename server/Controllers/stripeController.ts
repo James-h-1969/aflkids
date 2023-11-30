@@ -117,7 +117,7 @@ export const stripeController = {
     handleSuccessfulPayment: async (request: Request, response: Response) => { //function for successful payment
         const sig = request.headers['stripe-signature'];
 
-        const EMAIL_TO_TOM_ON = false;
+        const EMAIL_TO_TOM_ON = true;
 
         try {
           const event = stripe.webhooks.constructEvent(request.body, sig, process.env.STRIPE_ENDPOINT_KEY);
