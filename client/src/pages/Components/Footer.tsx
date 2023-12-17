@@ -39,6 +39,12 @@ export default function Footer(){
                     <Link to="https://www.pittwatertigers.com.au/">
                         <Image src="/assets/Logos/Tigers.png" style={{width:mediaQueries.mobile?"30px":"90px"}}/>
                     </Link>
+                    <Link to="https://hornsbyberowraeagles.com/">
+                        <Image src="/assets/Logos/eagles.jpg" style={{width:mediaQueries.mobile?"30px":"90px"}}/>
+                    </Link>
+                    <Link to="https://wildcatsafl.com/">
+                        <Image src="/assets/Logos/wildcats.jpg" style={{width:mediaQueries.mobile?"30px":"90px"}}/>
+                    </Link>
                 </div>
             </div>
         </div>

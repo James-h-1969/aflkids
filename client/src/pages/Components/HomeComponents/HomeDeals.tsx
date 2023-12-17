@@ -16,10 +16,10 @@ function HomeDeals(){
     
       return (
         <>
-        <div style={{ height: mediaQueries.mobile?"400px":"100vh", marginBottom: mediaQueries.mobile?"40px":"100px", position: "relative" }}>
-          <div style={{ backgroundColor: ColourScheme.defaultColour, width: "100%", position: "absolute", zIndex: 6, opacity: 0.7,  height:mediaQueries.mobile?"400px":"100vh" }}></div>
+        <div style={{ height: mediaQueries.mobile?"400px":"120vh", marginBottom: mediaQueries.mobile?"40px":"100px", position: "relative" }}>
+          <div style={{ backgroundColor: ColourScheme.defaultColour, width: "100%", position: "absolute", zIndex: 6, opacity: 0.7,  height:mediaQueries.mobile?"400px":"120vh" }}></div>
           <div style={{ overflow: "hidden" }}>
-            <img src={campPhoto} style={{ width: "98.5vw", zIndex: 5, position: "absolute", height:mediaQueries.mobile?"400px":"100vh"}} alt="Camp Photo" />
+            <img src={campPhoto} style={{ width: "98.5vw", zIndex: 5, position: "absolute", height:mediaQueries.mobile?"400px":"120vh"}} alt="Camp Photo" />
           </div>
           <div className="d-flex justify-content-start">
             <div className="d-flex flex-column" style={{ width:mediaQueries.mobile?"120px": "300px", zIndex: 30, marginTop:mediaQueries.mobile?"100px":"240px", marginLeft:mediaQueries.mobile?"2rem":"5rem" }}>
@@ -44,7 +44,7 @@ function HomeDeals(){
                       <Button className="mt-3" size={mediaQueries.mobile?"sm":"lg"} style={{color:ColourScheme.defaultColour, backgroundColor:"white", border:"transparent", fontWeight:"bold", fontSize:mediaQueries.mobile?"10px":""}}>View Upcoming Camps</Button>
                   </Link>
             </div>
-            <div style={{zIndex: 30, marginTop:mediaQueries.mobile?"50px":"230px", marginLeft:mediaQueries.mobile?"50px":"200px", paddingRight:mediaQueries.mobile?"20px":"100px",lineHeight:mediaQueries.mobile?"0.8":"1"}}>
+            <div style={{zIndex: 30, marginTop:mediaQueries.mobile?"50px":"170px", marginLeft:mediaQueries.mobile?"50px":"200px", paddingRight:mediaQueries.mobile?"20px":"100px",lineHeight:mediaQueries.mobile?"0.8":"1"}}>
                   <span style={{fontSize:mediaQueries.mobile?"15px":"60px", fontWeight:"bold", fontFamily:"Rubik", color:"white"}}>Private Coaching<br /></span>
                   <span style={{fontSize:mediaQueries.mobile?"7px":"30px", fontWeight:"normal", fontFamily:"Rubik", color:"white"}}>
                       Elevate your skills with personalized <span style={{color:'red', fontWeight:"bold"}}>AFL</span> private coaching. Tailored sessions offer focused skill enhancement, strategy development, and individualized attention<br /></span>
