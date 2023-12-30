@@ -19,6 +19,7 @@ export default function DisplayCamp({val}: displayCampType) {
     const [newcampDate, setnewCampDate] = useState("");
     const [newcampTimes, setnewCampTimes] = useState("");
     const [newcampLocation, setnewCampLocation] = useState("");
+    const [isEmailing, setIsEmailing] = useState(false)
 
     async function updateTheCamp(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault()
@@ -153,6 +154,20 @@ export default function DisplayCamp({val}: displayCampType) {
         location.reload();
     }
 
+    async function emailParents(){
+        const update = {campname_:val.name};
+        const requestOptions: RequestInit = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // Add any additional headers if required
+              },
+            body: JSON.stringify(update),
+        };
+
+        fetch(`${backendLink}/EmailCampUpdate`, requestOptions)
+    }
+
 
     return(
         <div className="p-3 m-3" style={{backgroundColor:"#D3D3D3", borderRadius:"15px"}}>
@@ -225,8 +240,12 @@ export default function DisplayCamp({val}: displayCampType) {
                         <div className="pb-1" style={{fontWeight:"bold"}}>
                             Kids: {getChildList(val.kidsDay1, val.kidsDay2).length}
                         </div>
-                        <Button onClick={() => changeArchive(val.name, !val.archived)} style={{marginRight:"20px", backgroundColor:ColourScheme.defaultColour, border:"transparent"}}>Change Status</Button>
-                        <ShowKids kids={getChildList(val.kidsDay1, val.kidsDay2)}/>
+                        <div className="d-flex flex-row">
+                            <Button onClick={() => changeArchive(val.name, !val.archived)} style={{marginRight:"20px", backgroundColor:ColourScheme.defaultColour, border:"transparent"}}>Change Status</Button>
+                            <ShowKids kids={getChildList(val.kidsDay1, val.kidsDay2)}/>
+                            <Button onClick={() => setIsEmailing(!isEmailing)}style={{marginLeft:"20px", backgroundColor:ColourScheme.defaultColour, border:"transparent"}}>Email Parents</Button>
+                            {isEmailing ? <><div onClick = {() => emailParents()} className="mt-1 ps-3">This will send an email reminder.</div><Button onClick={() => emailParents()} className="bg-danger" style={{marginLeft:"20px", backgroundColor:ColourScheme.defaultColour, border:"transparent"}}>SEND</Button></>:<></>}
+                        </div>
                     </div>
     )
 }

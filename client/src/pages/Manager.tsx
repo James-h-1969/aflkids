@@ -8,6 +8,7 @@ import DisplayCamp from "./ManagerHelp/DisplayCamp";
 // import CoachSection from "./ManagerHelp/CoachSection";
 import ParentSection from "./ManagerHelp/ParentSection";
 import { backendLink, ColourScheme } from "../globalVar";
+import CoachSection from "./ManagerHelp/CoachSection";
 
 export default function Manager(){
     const [camps, setCamps] = useState<CampType[]>([]);
@@ -52,6 +53,7 @@ export default function Manager(){
             <div>
                 <div className="ps-3"><h1 style={{width:"20vw", fontWeight:"bold", fontFamily:"Rubik", fontSize:"40px"}}>Parents</h1></div>
                 <ParentSection />
+                <CoachSection />
             </div>  
         </div></>:<><span className="text-center ps-5 me-5" style={{width:"100vw", fontWeight:"bold", fontFamily:"Rubik", fontSize:"70px"}}>Nice Try</span>
         <Link to="/">

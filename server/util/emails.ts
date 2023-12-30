@@ -10,9 +10,9 @@ const SES_CONFIG = {
 };
 
 export const ses = new AWS.SES(SES_CONFIG);
-export const senderEmail = 'jameshocking542@gmail.com'; // Replace with your sender email address
+export const senderEmail = 'jameshocking542@gmail.com'; // Replace with your sender email address (replace with TOM)
 
-export async function sendEmail(customerEmail:string, theyBought: string, response:Response){
+export async function sendSuccessEmail(customerEmail:string, theyBought: string, response:Response){
     let emailList = ["Tomoleary@aflkids.com.au"]; // send the email to tom outlining that there was just a purchase
             
     const params = {
@@ -35,3 +35,29 @@ export async function sendEmail(customerEmail:string, theyBought: string, respon
         response.status(200).send(`Error sending email to ${customerEmail}: ${error}`).end();
     }
 }
+
+export async function sendEmail(customers:Array<string>, message:string, header:string){
+    console.log("Sending Email...\n")
+    const params = {
+        Destination: {
+            ToAddresses: customers,
+        },
+        Message: {
+            Body: {
+                Html: { Data: message }
+            },
+            Subject: { Data: header }
+        },
+        Source: senderEmail
+    };
+
+    try {
+        const result = await ses.sendEmail(params).promise();
+        console.log("Successfully sent emails.")
+    } catch (error) {
+        console.log("Something was unsuccessful trying to send an email: ")
+        console.log(error)
+    }
+}
+
+//From the team at AFLKids,<br /><br />Just a reminder about the upcoming 

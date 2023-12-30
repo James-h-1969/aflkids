@@ -5,7 +5,7 @@ import Coach from "../Models/Coach";
 import generateHashedTokens  from "../util/randomToken";
 import Tokens from "../Models/Tokens";
 import Product from "../Models/Product";
-import { sendEmail } from "../util/emails";
+import { sendSuccessEmail } from "../util/emails";
 import { makeTokenForPlan } from "../util/randomToken"
 
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
@@ -193,7 +193,7 @@ export const stripeController = {
                 // join the array into something readable
                 const theyBoughtArray = await Promise.all(theyBoughtPromises);
                 const theyBought = theyBoughtArray.join(",<br /><br />");
-                let sendingEmail = await sendEmail(customerEmail, theyBought, response);
+                let sendingEmail = await sendSuccessEmail(customerEmail, theyBought, response);
             }
 
             console.log("Finished reacting to the successful purchase")

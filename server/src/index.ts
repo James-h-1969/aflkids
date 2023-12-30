@@ -37,6 +37,7 @@ app.post("/camps", campController.addCamp);
 app.post("/updatecampstatus", campController.changeArchive)
 app.post("/deletecamp", campController.deleteCamp)
 app.post("/updatecamp", campController.updateCamp)
+app.post("/EmailCampUpdate", campController.emailCamp)
 
 // PRIVATE ROUTES //
 app.get("/PrivateTimes", privateController.getCoachTimes);
@@ -60,6 +61,8 @@ app.get("/Parents", parentController.getParents)
 app.post("/Coaches", coachController.addCoach)
 app.get("/Coaches", coachController.getCoaches)
 app.post("/deleteCoach", coachController.deleteCoach)
+
+
 
 
 
