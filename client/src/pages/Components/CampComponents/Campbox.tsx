@@ -107,15 +107,15 @@ function Campbox ({name, Location, ages, date, times, Price, address, locPic, in
     const isButtonDisabled = !(childName && childAge && club  && (selectedOption != "Choose Days"));
     
     return(
-        <div className="m-3 pb-4 " style={{backgroundColor:ColourScheme.defaultColour, fontFamily:"Rubik", borderRadius:"15px", paddingLeft:mediaQueries.mobile?"0px":"30px", paddingRight:mediaQueries.mobile?"10px":"30px", color:"white"}}>
+        <div className="m-3 pb-4" style={{backgroundColor:ColourScheme.defaultColour, fontFamily:"Rubik", borderRadius:"15px", paddingLeft:mediaQueries.mobile?"0px":"30px", paddingRight:mediaQueries.mobile?"10px":"30px", color:"white"}}>
             <div className="ps-4 w-10 d-flex justify-content-between" style={{paddingTop:mediaQueries.mobile?"17px":"30px"}}>
                 <div className="text-center d-flex flex-column" style={{width:"50%"}}>
                     <span className="mb-2" style={{fontWeight:"bold", fontSize:mediaQueries.mobile?"12px":"30px", color:"white"}}>{name}</span>
-                    <span className="mb-1" style={{fontWeight:"400", fontSize:mediaQueries.mobile?"20px":"70px"}}>${Price.toString()}</span>
+                    <span className="mb-1" style={{fontSize:mediaQueries.mobile?"20px":"90px", fontWeight:"bold"}}>${Price.toString()}</span>
                     <span style={{fontWeight:"400", fontSize:mediaQueries.mobile?"10px":"30px"}}>{ages}</span>
                     <span style={{fontWeight:"400", fontSize:mediaQueries.mobile?"10px":"20px"}}>{date}</span>
                     <span className="mb-3" style={{fontWeight:"400", fontSize:mediaQueries.mobile?"10px":"20px"}}>{times}</span>
-                    <Button className="" style={{fontSize:mediaQueries.mobile?"10px":'30px', backgroundColor:"white", color:"black", width:mediaQueries?"180%":"100%", marginTop:mediaQueries.mobile?"5px":"50px"}} onClick={() => setIsBooking(!isBooking)}>{!isBooking ? "Show more":"Hide"}</Button>
+                    <Button className="" style={{fontSize:mediaQueries.mobile?"10px":'30px', backgroundColor:"white", color:"black", marginTop:mediaQueries.mobile?"5px":"50px"}} onClick={() => setIsBooking(!isBooking)}>{!isBooking ? "Book now":"Hide"}</Button>
                 </div>
                 <div>
                 <Image
@@ -131,6 +131,7 @@ function Campbox ({name, Location, ages, date, times, Price, address, locPic, in
                 />
                 </div>
             </div>
+            {/* Above is everything shown before revealing more  */}
             { isBooking ? 
                 <div className="d-flex">
                     <div className="p-2" style={{width:"100%"}}>
@@ -141,13 +142,15 @@ function Campbox ({name, Location, ages, date, times, Price, address, locPic, in
                             ensure skills are being matched. Namely, players from ages 5-8 will split from players aged 9-13
                             participating in two seperate camps.
                         </div>
-                        <div className="d-flex" style={{marginTop:mediaQueries.mobile?"10px":"50px"}}>
+                        <div className="d-flex justify-content-around" style={{marginTop:mediaQueries.mobile?"10px":"50px"}}>
                             <div className="" style={{textAlign:"center", fontSize:mediaQueries.mobile?"10px":"25px", paddingLeft:mediaQueries.mobile?"25px":""}}>
                                 <div>
                                     Location : <span className="ps-1" style={{fontWeight:"bold", fontSize:mediaQueries.mobile?"12px":"30px"}}>{Location}</span><br />
                                     {address}
                                 </div>
                                 <Image src={locPic} className="pt-4 ms-3" style={{width:mediaQueries.mobile?"100px":"400px", height:mediaQueries.mobile?"120px":"400px"}}/>
+                                
+                                
                                 {mediaQueries.mobile?<div>
                                         <div className="mt-3 d-flex justify-content-center gap-4">
                                             <div>
