@@ -14,16 +14,12 @@ export default function Footer(){
     }
 
     return(<>
-        <div className="d-flex justify-content-around text-center" style={{gap:mediaQueries.mobile?"0px":"20px", height:mediaQueries.mobile?"100px":"300px", fontFamily:"Rubik", fontWeight:"bold", fontSize:mediaQueries.mobile?"12px":"40px"}}>
+        <div className="d-flex justify-content-around text-center pt-5" style={{gap:mediaQueries.mobile?"0px":"20px", height:mediaQueries.mobile?"100px":"300px", fontFamily:"Rubik", fontWeight:"bold", fontSize:mediaQueries.mobile?"12px":"40px", backgroundColor:"white"}}>
             <div>
                 Thanks to our sponsers
                 <div className="d-flex justify-content-around pt-4">
-                    <Link to="https://www.ontop.com.au/">
-                    <Image src="/assets/Logos/ontop.png" style={{width:mediaQueries.mobile?"50px":"300px"}}/>
-                    </Link>
-                    <Link to="https://www.code5.com.au/">
-                        <Image src="/assets/Logos/code5.png" style={{width:mediaQueries.mobile?"50px":"250px"}}/>
-                    </Link>
+                    <Image src="/assets/Logos/ontop.png" onClick={() => changeURL("https://www.ontop.com.au/")} style={{width:mediaQueries.mobile?"50px":"300px", cursor:"pointer"}}/>
+                    <Image src="/assets/Logos/code5.png" onClick={() => changeURL("https://www.code5.com.au/")} style={{width:mediaQueries.mobile?"50px":"250px", cursor:"pointer"}}/>
                 </div>
             </div>
             <div>
@@ -35,7 +31,7 @@ export default function Footer(){
                     <Image src="/assets/Logos/swans.png" onClick={() => changeURL("https://mosmanswans.com.au/")} style={{width:mediaQueries.mobile?"30px":"90px", cursor:"pointer"}}/>
                     <Image src="/assets/Logos/Tigers.png" onClick={() => changeURL("https://www.pittwatertigers.com.au/")} style={{width:mediaQueries.mobile?"30px":"90px", cursor:"pointer"}}/>
                     <Image src="/assets/Logos/eagles.jpg" onClick={() => changeURL("https://hornsbyberowraeagles.com/")} style={{width:mediaQueries.mobile?"30px":"90px", cursor:"pointer"}}/>
-                    <Image src="/assets/Logos/wildcats.jpg" onClick={() => changeURL("https://www.manlybombers.com.au/")} style={{width:mediaQueries.mobile?"30px":"90px", cursor:"pointer"}}/>
+                    <Image src="/assets/Logos/wildcats.jpg" onClick={() => changeURL("https://wildcatsafl.com/")} style={{width:mediaQueries.mobile?"30px":"90px", cursor:"pointer"}}/>
                 </div>
             </div>
         </div>
