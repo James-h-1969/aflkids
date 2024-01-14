@@ -240,7 +240,7 @@ export default function DisplayCamp({val}: displayCampType) {
                         <div className="pb-1" style={{fontWeight:"bold"}}>
                             Kids: {getChildList(val.kidsDay1, val.kidsDay2).length}
                         </div>
-                        <div className="d-flex flex-row">
+                        <div className="">
                             <Button onClick={() => changeArchive(val.name, !val.archived)} style={{marginRight:"20px", backgroundColor:ColourScheme.defaultColour, border:"transparent"}}>Change Status</Button>
                             <ShowKids kids={getChildList(val.kidsDay1, val.kidsDay2)}/>
                             <Button onClick={() => setIsEmailing(!isEmailing)}style={{marginLeft:"20px", backgroundColor:ColourScheme.defaultColour, border:"transparent"}}>Email Parents</Button>

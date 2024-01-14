@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react"
-import { Button, Form } from "react-bootstrap"
-import { Coach } from "../../types/coachType";
+import { Button, Form, Image } from "react-bootstrap"
+import { Coach, BookedSession, AvailableSession } from "../../types/coachType";
 import "../manager.css"
-import { backendLink } from "../../globalVar";
+import { ColourScheme, backendLink } from "../../globalVar";
+import { Kids } from "../../types/kidsType";
 
 export default function CoachSection(){
     const [coaches, setCoaches] = useState<Coach[]>([]);
     const [coachName, setCoachName] = useState("");
+    const [showCoach, setShowCoach] = useState(false);
+    const [CoachtoShow, setCoachToShow] = useState<Coach>();
+    const [bookedSessionShowing, setBookedSessionShowing] = useState(-1);
 
     function addCoach(){
         const newCoach = {
@@ -51,7 +55,38 @@ export default function CoachSection(){
         fetchCoaches();
       }, [])
 
+    function setShowingCoach(coach:Coach){
+      setShowCoach(!showCoach);
+      setCoachToShow(coach)
+    }
 
+    const kids: Kids = {
+      kids: [],
+    }
+
+    function test(){
+      let session = {
+        name_: "Tom O'Leary",
+        location_: "Weldon Oval",
+        timing_: new Date(),
+        kids_: kids,
+        type_: "1 on 1"
+      }
+      const requestOptions: RequestInit = {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              // Add any additional headers if required
+            },
+          body: JSON.stringify(session),
+      };
+
+      fetch(`${backendLink}/addCoachSess`, requestOptions)
+
+    }
+
+    const timing = CoachtoShow?.bookedSessions[bookedSessionShowing]?.timing;
+    const CoachSessionKids = CoachtoShow?.bookedSessions[bookedSessionShowing]?.kids;
 
     return(
         <>
@@ -69,12 +104,12 @@ export default function CoachSection(){
                                 style={{fontSize:"15px"}}
                                 />
                             </Form.Group>
-                            <Button type="submit" style={{backgroundColor:"#46768E", border:"transparent", width:"120px"}}>Add Coach</Button>
+                            <Button type="submit" style={{backgroundColor:ColourScheme.defaultColour, border:"transparent", width:"120px"}}>Add Coach</Button>
                         </Form>
                     </div>
                 </div>
                 {coaches.slice().reverse().map((value) => (
-                    <div style={{ width: "100px", height: "130px" }}>
+                    <div className="d-flex flex-column align-items-center" style={{ width: "100px", height: "180px" }}>
                     <div className="rounded-circle mb-2" style={{ backgroundImage:`url(${value.imgName})`, backgroundSize: "cover",
                         backgroundPosition: "center",width: "100px", height: "100px", position: "relative", backgroundColor: value.imgName === "" ? "grey":"" }}>
                       {/* Red "X" */}
@@ -90,9 +125,97 @@ export default function CoachSection(){
                       </div>
                     </div>
                     <div style={{ width: "100px", textAlign: "center", fontWeight: "bold" }}>{value.name}</div>
+                    <Button onClick={() => setShowingCoach(value)} style={{backgroundColor:ColourScheme.defaultColour, border:"transparent", width:"120px", marginTop:"20px"}}>View</Button>
                   </div>
                 ))}
-
+                {showCoach ?  <div style={{
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  width: "100vw",
+                  height: "100vh",
+                  backgroundColor: "rgba(0, 0, 0, 0.5)", // Red color with 50% transparency
+                  zIndex: "120"
+                }}>
+                <div style={{
+                  position: 'fixed',
+                  top: '20%',
+                  left: "20%",
+                  width: '60%',
+                  height: '60%', // Adjust the height as needed
+                  backgroundColor: ColourScheme.defaultColour,
+                  zIndex: "200",
+                  borderRadius: "10px"
+                }}>
+                  <div onClick={() => setShowCoach(false)} className="need_hover rounded-circle bg-danger d-flex justify-content-center align-items-center" style={{
+                        width: "2rem",
+                        height: "2rem",
+                        color: "white",
+                        position: "absolute",
+                        top: "0",
+                        right: "0",
+                      }}>
+                        X
+                  </div>
+                  <div className="d-flex">
+                    <div className="d-flex gap-5 ps-5 pt-3">
+                      <div>
+                        <div style={{ color: "white", fontSize: "40px", fontWeight: "bold" }}>{CoachtoShow?.name}</div>
+                        <div style={{ color: "grey", fontSize: "20px", fontWeight: "bold" }}>CEO, AFLKids</div>
+                      </div>
+                      <div className="rounded-circle mb-2" style={{
+                        backgroundImage: `url(${CoachtoShow?.imgName})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        width: "100px",
+                        height: "100px",
+                        position: "relative"
+                      }}></div>
+                    </div>
+                    <div>
+                    <div className="ms-4 mt-4">
+                      <div style={{color:"white", fontWeight:"bold", fontSize:"22px"}}>Available</div>
+                      {CoachtoShow?.availableSessions.map((value) => (
+                        <div className="rounded-circle">
+                          Test1
+                        </div>
+                      ))}
+                    </div>
+                    <div className="ms-4 mt-4">
+                      <div style={{color:"white", fontWeight:"bold", fontSize:"22px"}}>Booked</div>
+                      {CoachtoShow?.bookedSessions.map((value, index) => (
+                        <div
+                        className="rounded-circle"
+                        style={{ width: "20px", cursor:"pointer", height: "20px", backgroundColor: "green", margin: "5px" }}
+                        onClick = {() => setBookedSessionShowing(bookedSessionShowing == -1 ?  index: (bookedSessionShowing == index ? -1 : index))}
+                     > 
+                       
+                      </div>
+                      ))}
+                    </div>
+                        { bookedSessionShowing != -1 ?
+                        <div className="ms-3 mt-4 p-3" style={{backgroundColor:"white", width:"400px", height:"200px", borderRadius:"10px"}}>
+                          <div className="d-flex justify-content-between">
+                            <div style={{fontWeight:"bold", fontSize:"20px"}}>{CoachtoShow?.bookedSessions[bookedSessionShowing]?.type} Session</div>
+                            <div>{CoachSessionKids?.kids.length} kids</div>
+                          </div>
+                          <div>{CoachtoShow?.bookedSessions[bookedSessionShowing]?.location}</div>
+                          <div>{timing?.toLocaleString()}</div>
+                          <div>
+                            {CoachSessionKids?.kids.map((kid, index) => (
+                              <div key={index}>Kid: {kid.childName}</div>
+                            ))}
+                          </div>
+                          <Button className="bg-danger" style={{border:"transparent", marginTop:"40px"}}>Delete Session</Button>
+                        </div>:<></>
+                        }
+                      
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+              :<></>}
             </div>
         </>
     )
