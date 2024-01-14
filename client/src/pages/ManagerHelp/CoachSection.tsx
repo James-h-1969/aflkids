@@ -85,6 +85,24 @@ export default function CoachSection(){
 
     }
 
+    async function delCoachSession(timing:Date){
+      const toDel = {
+        name_: CoachtoShow?.name,
+        timing_:timing
+      }
+      const requestOptions: RequestInit = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            // Add any additional headers if required
+          },
+        body: JSON.stringify(toDel),
+    };
+
+      const del = await fetch(`${backendLink}/delCoachSess`, requestOptions);
+      location.reload();
+    }
+
     const timing = CoachtoShow?.bookedSessions[bookedSessionShowing]?.timing;
     const CoachSessionKids = CoachtoShow?.bookedSessions[bookedSessionShowing]?.kids;
 
@@ -182,7 +200,8 @@ export default function CoachSection(){
                       ))}
                     </div>
                     <div className="ms-4 mt-4">
-                      <div style={{color:"white", fontWeight:"bold", fontSize:"22px"}}>Booked</div>
+                      <div  style={{color:"white", fontWeight:"bold", fontSize:"22px"}}>Booked</div>
+                      <div className="d-flex flex-row"> 
                       {CoachtoShow?.bookedSessions.map((value, index) => (
                         <div
                         className="rounded-circle"
@@ -191,7 +210,7 @@ export default function CoachSection(){
                      > 
                        
                       </div>
-                      ))}
+                      ))}</div>
                     </div>
                         { bookedSessionShowing != -1 ?
                         <div className="ms-3 mt-4 p-3" style={{backgroundColor:"white", width:"400px", height:"200px", borderRadius:"10px"}}>
@@ -206,7 +225,8 @@ export default function CoachSection(){
                               <div key={index}>Kid: {kid.childName}</div>
                             ))}
                           </div>
-                          <Button className="bg-danger" style={{border:"transparent", marginTop:"40px"}}>Delete Session</Button>
+                          {timing !== undefined ? <Button onClick={() => delCoachSession(timing)} className="bg-danger" style={{border:"transparent", marginTop:"40px"}}>Delete Session</Button>:<></>}
+                          
                         </div>:<></>
                         }
                       

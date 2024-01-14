@@ -36,9 +36,23 @@ export const coachController = {
         }
 
         coach?.bookedSessions.push(bookedSession);
-        console.log(coach);
+
         const updatedCoach = await coach?.save()
     },
+    // function for deleting a booked session with the coach
+    deleteBookedSession: async (req: Request, res: Response) => {
+        const {name_, timing_} = req.body;
+
+        const coach = await Coach.findOne({ name: name_});
+
+        const sessionIndex = coach?.bookedSessions.findIndex(session => session.timing === timing_);
+
+        if (sessionIndex !== undefined){
+            coach?.bookedSessions.splice(sessionIndex, 1);
+        }
+        const updatedCoach = await coach?.save();
+
+    }
     // deleteSession: async (req: Request, res: Response) => {
 
     // },
