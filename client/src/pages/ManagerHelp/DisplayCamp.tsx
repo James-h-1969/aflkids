@@ -5,6 +5,7 @@ import { useState} from "react"
 import ShowKids from "./ShowKids";
 import { locations } from "../../types/campType";
 import { ColourScheme, backendLink } from "../../globalVar";
+import * as XLSX from 'xlsx';
 
 type displayCampType = {
     val: CampType
@@ -19,7 +20,6 @@ export default function DisplayCamp({val}: displayCampType) {
     const [newcampDate, setnewCampDate] = useState("");
     const [newcampTimes, setnewCampTimes] = useState("");
     const [newcampLocation, setnewCampLocation] = useState("");
-    const [isEmailing, setIsEmailing] = useState(false)
 
     async function updateTheCamp(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault()
@@ -154,25 +154,33 @@ export default function DisplayCamp({val}: displayCampType) {
         location.reload();
     }
 
-    async function emailParents(){
-        const update = {campname_:val.name};
-        const requestOptions: RequestInit = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                // Add any additional headers if required
-              },
-            body: JSON.stringify(update),
-        };
+    function exportPdf(){
+        let headerRow = ["Name", "Age", "Club", "Comments", "Parent Email", "Day1", "Day2", "Money"]
 
-        fetch(`${backendLink}/EmailCampUpdate`, requestOptions)
+        const children: Child[] = getChildList(val.kidsDay1, val.kidsDay2);
+
+        const updatedChildren: Object[] = children.map((child) => ({
+            ...child,
+            parent: child.parent.email,
+            money: (child.day1 && child.day2) ? 150 : 100, // Assuming parent.email is a valid property
+          }));
+
+        var wb = XLSX.utils.book_new();
+        var ws = XLSX.utils.json_to_sheet(updatedChildren);
+
+        var name = val.name.includes("Northern Beaches") ? "NB" : val.name
+
+        XLSX.utils.book_append_sheet(wb, ws, `${name}_data`);
+
+        XLSX.writeFile(wb, `${name}_data.xlsx`)
     }
+
+
 
 
     return(
         <div className="p-3 m-3" style={{backgroundColor:"#D3D3D3", borderRadius:"15px"}}>
                     <span style={{fontWeight:"normal", fontFamily:"Rubik", fontSize:"20px"}}>{val.name}</span>
-                    {/* <div className="circle" style={{backgroundColor:"red", position:"absolute", right:"3vw"}} onClick={() => deleteCamp(val.name)}><div className="plus">-</div></div> */}
                     <div style={{ position: "relative", right: "100px", display: "flex", flexDirection: "column", alignItems: "flex-end", justifyContent: "center", height: "100%" }}>
                         <div style={{ fontWeight: "bold", fontSize: "20px" }}>{val.Location}</div>
                         <div style={{ fontWeight: "bold" }}>{val.date}</div>
@@ -242,9 +250,8 @@ export default function DisplayCamp({val}: displayCampType) {
                         </div>
                         <div className="">
                             <Button onClick={() => changeArchive(val.name, !val.archived)} style={{marginRight:"20px", backgroundColor:ColourScheme.defaultColour, border:"transparent"}}>Change Status</Button>
+                            <Button onClick={() => exportPdf()} style={{ backgroundColor:ColourScheme.defaultColour, border:"transparent", marginRight:"20px"}}>Download as Excel</Button>
                             <ShowKids kids={getChildList(val.kidsDay1, val.kidsDay2)}/>
-                            <Button onClick={() => setIsEmailing(!isEmailing)}style={{marginLeft:"20px", backgroundColor:ColourScheme.defaultColour, border:"transparent"}}>Email Parents</Button>
-                            {isEmailing ? <><div onClick = {() => emailParents()} className="mt-1 ps-3">This will send an email reminder.</div><Button onClick={() => emailParents()} className="bg-danger" style={{marginLeft:"20px", backgroundColor:ColourScheme.defaultColour, border:"transparent"}}>SEND</Button></>:<></>}
                         </div>
                     </div>
     )

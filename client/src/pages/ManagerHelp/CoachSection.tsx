@@ -12,6 +12,26 @@ export default function CoachSection(){
     const [CoachtoShow, setCoachToShow] = useState<Coach>();
     const [bookedSessionShowing, setBookedSessionShowing] = useState(-1);
 
+    function getTimetableArray(sessions:AvailableSession[], date:Date){
+      // initialise the week array
+      let currentWeek: boolean[][] = Array.from({ length: 12 }, () => Array(7).fill(false));
+
+      for (const session of  sessions){
+        let currentSessionTiming = session.timing;
+        const diff = currentSessionTiming.getDate() - currentSessionTiming.getDay() + (currentSessionTiming.getDay() === 0 ? -6 : 1); // Adjust for Sunday
+
+        // let startOfWeek:Date = currentSessionTiming.setDate(diff);
+        // startOfWeek.setHours(0, 0, 0, 0); // Set time to midnight
+        // is session in current week
+
+        // what day of the week is session
+        // what time is session
+        // change array
+      }
+
+      return currentWeek;
+    }
+
     function addCoach(){
         const newCoach = {
             name_:coachName
@@ -99,7 +119,7 @@ export default function CoachSection(){
         body: JSON.stringify(toDel),
     };
 
-      const del = await fetch(`${backendLink}/delCoachSess`, requestOptions);
+      await fetch(`${backendLink}/delCoachSess`, requestOptions);
       location.reload();
     }
 
@@ -175,7 +195,8 @@ export default function CoachSection(){
                       }}>
                         X
                   </div>
-                  <div className="d-flex">
+                  <div className="d-flex ">
+                    <div>
                     <div className="d-flex gap-5 ps-5 pt-3">
                       <div>
                         <div style={{ color: "white", fontSize: "40px", fontWeight: "bold" }}>{CoachtoShow?.name}</div>
@@ -189,13 +210,19 @@ export default function CoachSection(){
                         height: "100px",
                         position: "relative"
                       }}></div>
+                      </div>
+                      <div className="d-flex gap-5 ms-5 pt-3" style={{color:"white", width:"87%", backgroundColor:"grey", height:"300px", borderRadius:"10px"}}>
+                        <div className="d-flex justify-content-center" style={{width:"100%", fontWeight:"bold"}}>Change availabilities</div>
+                        
+                      </div>
                     </div>
+                    
+                    
                     <div>
                     <div className="ms-4 mt-4">
                       <div style={{color:"white", fontWeight:"bold", fontSize:"22px"}}>Available</div>
                       {CoachtoShow?.availableSessions.map((value) => (
                         <div className="rounded-circle">
-                          Test1
                         </div>
                       ))}
                     </div>
@@ -207,8 +234,7 @@ export default function CoachSection(){
                         className="rounded-circle"
                         style={{ width: "20px", cursor:"pointer", height: "20px", backgroundColor: "green", margin: "5px" }}
                         onClick = {() => setBookedSessionShowing(bookedSessionShowing == -1 ?  index: (bookedSessionShowing == index ? -1 : index))}
-                     > 
-                       
+                     >  
                       </div>
                       ))}</div>
                     </div>

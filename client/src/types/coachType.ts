@@ -20,6 +20,6 @@ export type BookedSession = {
 // type for a training session while availalbe
 export type AvailableSession = {
     location: string,
-    timing: Date[],
+    timing: Date,
     day_availabilities: number[]
 }
