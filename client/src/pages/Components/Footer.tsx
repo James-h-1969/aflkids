@@ -1,6 +1,6 @@
 import { Image } from "react-bootstrap";
 import "./Components.css";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import useMediaQueries from "media-queries-in-react";
 
 

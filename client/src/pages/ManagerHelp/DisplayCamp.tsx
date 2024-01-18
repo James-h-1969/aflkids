@@ -155,8 +155,6 @@ export default function DisplayCamp({val}: displayCampType) {
     }
 
     function exportPdf(){
-        let headerRow = ["Name", "Age", "Club", "Comments", "Parent Email", "Day1", "Day2", "Money"]
-
         const children: Child[] = getChildList(val.kidsDay1, val.kidsDay2);
 
         const updatedChildren: Object[] = children.map((child) => ({

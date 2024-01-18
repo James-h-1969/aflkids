@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Campbox from "./Campbox";
-import useMediaQueries from "media-queries-in-react";
+// import useMediaQueries from "media-queries-in-react";
 import { backendLink } from "../../../globalVar";
 
 type CampType = {
@@ -38,9 +38,9 @@ function UpcomingCamps() {
   //"https://aflkids-backend.onrender.com/camps";
 
 
-  const mediaQueries = useMediaQueries({ 
-    mobile: "(max-width: 768px)", // Adjust max-width for mobile screens
-  });
+  // const mediaQueries = useMediaQueries({ 
+  //   mobile: "(max-width: 768px)", // Adjust max-width for mobile screens
+  // });
 
   return (
       <div className="p-5">

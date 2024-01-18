@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
-import { Button, Form, Image } from "react-bootstrap"
-import { Coach, BookedSession, AvailableSession } from "../../types/coachType";
+import { Button, Form } from "react-bootstrap"
+import { Coach } from "../../types/coachType";
 import "../manager.css"
 import { ColourScheme, backendLink } from "../../globalVar";
-import { Kids } from "../../types/kidsType";
+// import { Kids } from "../../types/kidsType";
 
 export default function CoachSection(){
     const [coaches, setCoaches] = useState<Coach[]>([]);
@@ -12,25 +12,25 @@ export default function CoachSection(){
     const [CoachtoShow, setCoachToShow] = useState<Coach>();
     const [bookedSessionShowing, setBookedSessionShowing] = useState(-1);
 
-    function getTimetableArray(sessions:AvailableSession[], date:Date){
-      // initialise the week array
-      let currentWeek: boolean[][] = Array.from({ length: 12 }, () => Array(7).fill(false));
+    // function getTimetableArray(sessions:AvailableSession[], date:Date){
+    //   // initialise the week array
+    //   let currentWeek: boolean[][] = Array.from({ length: 12 }, () => Array(7).fill(false));
 
-      for (const session of  sessions){
-        let currentSessionTiming = session.timing;
-        const diff = currentSessionTiming.getDate() - currentSessionTiming.getDay() + (currentSessionTiming.getDay() === 0 ? -6 : 1); // Adjust for Sunday
+    //   for (const session of  sessions){
+    //     let currentSessionTiming = session.timing;
+    //     const diff = currentSessionTiming.getDate() - currentSessionTiming.getDay() + (currentSessionTiming.getDay() === 0 ? -6 : 1); // Adjust for Sunday
 
-        // let startOfWeek:Date = currentSessionTiming.setDate(diff);
-        // startOfWeek.setHours(0, 0, 0, 0); // Set time to midnight
-        // is session in current week
+    //     // let startOfWeek:Date = currentSessionTiming.setDate(diff);
+    //     // startOfWeek.setHours(0, 0, 0, 0); // Set time to midnight
+    //     // is session in current week
 
-        // what day of the week is session
-        // what time is session
-        // change array
-      }
+    //     // what day of the week is session
+    //     // what time is session
+    //     // change array
+    //   }
 
-      return currentWeek;
-    }
+    //   return currentWeek;
+    // }
 
     function addCoach(){
         const newCoach = {
@@ -80,30 +80,30 @@ export default function CoachSection(){
       setCoachToShow(coach)
     }
 
-    const kids: Kids = {
-      kids: [],
-    }
+    // const kids: Kids = {
+    //   kids: [],
+    // }
 
-    function test(){
-      let session = {
-        name_: "Tom O'Leary",
-        location_: "Weldon Oval",
-        timing_: new Date(),
-        kids_: kids,
-        type_: "1 on 1"
-      }
-      const requestOptions: RequestInit = {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-              // Add any additional headers if required
-            },
-          body: JSON.stringify(session),
-      };
+    // function test(){
+    //   let session = {
+    //     name_: "Tom O'Leary",
+    //     location_: "Weldon Oval",
+    //     timing_: new Date(),
+    //     kids_: kids,
+    //     type_: "1 on 1"
+    //   }
+    //   const requestOptions: RequestInit = {
+    //       method: 'POST',
+    //       headers: {
+    //           'Content-Type': 'application/json',
+    //           // Add any additional headers if required
+    //         },
+    //       body: JSON.stringify(session),
+    //   };
 
-      fetch(`${backendLink}/addCoachSess`, requestOptions)
+    //   fetch(`${backendLink}/addCoachSess`, requestOptions)
 
-    }
+    // }
 
     async function delCoachSession(timing:Date){
       const toDel = {
@@ -223,6 +223,7 @@ export default function CoachSection(){
                       <div style={{color:"white", fontWeight:"bold", fontSize:"22px"}}>Available</div>
                       {CoachtoShow?.availableSessions.map((value) => (
                         <div className="rounded-circle">
+                          {value.location}
                         </div>
                       ))}
                     </div>
@@ -231,10 +232,11 @@ export default function CoachSection(){
                       <div className="d-flex flex-row"> 
                       {CoachtoShow?.bookedSessions.map((value, index) => (
                         <div
+                        
                         className="rounded-circle"
                         style={{ width: "20px", cursor:"pointer", height: "20px", backgroundColor: "green", margin: "5px" }}
                         onClick = {() => setBookedSessionShowing(bookedSessionShowing == -1 ?  index: (bookedSessionShowing == index ? -1 : index))}
-                     >  
+                     >  {value.location}
                       </div>
                       ))}</div>
                     </div>
