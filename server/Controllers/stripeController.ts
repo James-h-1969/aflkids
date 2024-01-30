@@ -1,14 +1,11 @@
 import { Request, Response } from "express";
-const bcrypt = require("bcryptjs");
 import Camp from "../Models/Camp";
-import Coach from "../Models/Coach";
-import generateHashedTokens  from "../util/randomToken";
-import Tokens from "../Models/Tokens";
 import Product from "../Models/Product";
-import { sendSuccessEmail } from "../util/emails";
-import { makeTokenForPlan } from "../util/randomToken"
+import { sendCampSuccessEmail } from "../util/emails";
+require('dotenv').config();
 
-const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
+const Stripe = require('stripe')
+const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY);
 
 export type Parent = {
     parentname: String,
@@ -26,7 +23,7 @@ type details = {
     childAge: string,
     childComments: string,
     childClub: string,
-    purchaseName: string,
+    purchaseName: Array<String>,
 }
 
 interface Item {
@@ -77,13 +74,14 @@ export const stripeController = {
             const customerName = req.body.customerName;
             const customerEmail = req.body.customerEmail;
 
-            let customer = await doesCustomerExist(customerEmail, customerName);
+            // let customer = await doesCustomerExist(customerEmail, customerName);
             let items = JSON.stringify(req.body.items);
+
 
             const session = await stripe.checkout.sessions.create({
                 payment_method_types: ['card'],
                 mode: 'payment',
-                customer: customer.id,
+                // customer: customer.id,
                 phone_number_collection: {
                     enabled: true,
                 },
@@ -108,7 +106,6 @@ export const stripeController = {
                     },
                   },
             });
-
             res.json({ url: session.url });
         } catch (e: any) {
             res.status(500).json({ error: e.message });
@@ -129,14 +126,18 @@ export const stripeController = {
           // Handle the event
           if (eventType === "payment_intent.succeeded") {
             const customerId = data.customer;
-            const customer = await stripe.customers.retrieve(customerId);
-            const customerEmail = customer.email;
-
-            const parent = {
-                parentname: "placeholder till james figures it out",
-                email: customerEmail,
-                phone: "another placeholder"
+            let customerEmail = "N/A"
+            
+            if (customerId != null){
+                const customer = await stripe.customers.retrieve(customerId);
+                const customerEmail = customer.email;
             }
+
+            // const parent = {
+            //     parentname: "placeholder till james figures it out",
+            //     email: customerEmail,
+            //     phone: "another placeholder"
+            // }
     
             const { metadata } = data; //potentially grab parent name and email here?
             const cartItems = metadata.cartItems;
@@ -144,56 +145,75 @@ export const stripeController = {
             // get the meta data as an array of JSON items
             const JSONStuff = JSON.parse(cartItems);
        
-            JSONStuff.forEach(async (val:Item) => { // for each item in the cart
-                for (let i = 0; i < val.quantity; i++){  
-                    const detailsOfKid = val.details[i];        
-                    if (val.id == 11 || val.id == 16 || val.id == 17){ //holiday camp 2 day or 1 day
-                        const campKidDetails = {
-                            childName: detailsOfKid.childName,
-                            childAge: detailsOfKid.childAge,
-                            childComments: detailsOfKid.childComments,
-                            childClub: detailsOfKid.childClub,
-                            purchaseName: detailsOfKid.purchaseName,
-                            parent: parent
-                        }
-                        // check if they are already in the camp
-                        let isKidAlreadyInCamp = false;
-                        if (val.id == 16){ // one day
-                            const dayComing = detailsOfKid.purchaseName[1];
-                            if (dayComing === "1"){
-                                isKidAlreadyInCamp = await isKidInCamp(detailsOfKid.childName, detailsOfKid.purchaseName[0], detailsOfKid.purchaseName[1])
-                            }
-                            if (dayComing === "2"){
-                                isKidAlreadyInCamp = await isKidInCamp(detailsOfKid.childName, detailsOfKid.purchaseName[0], detailsOfKid.purchaseName[1])
-                            }
-                        } else {
-                            isKidAlreadyInCamp = await isKidInCamp(detailsOfKid.childName, detailsOfKid.purchaseName[0],"")
-                        }
-                        if (!isKidAlreadyInCamp){
-                            const addingChild = await addChildToCamp(detailsOfKid.purchaseName[0], val.id, campKidDetails, detailsOfKid.purchaseName[1]);
-                        }
-                    } else if (val.id == 9 || val.id == 10){ //buying tokens
-                        const makingTokensForPlan = await makeTokenForPlan(val.id, customerEmail);                   
-                    } else if (val.id == 14 || val.id == 15){ //using tokens
-                        // const usingTokensForPlan = await useTokenForPlan(val.details[index].purchaseName[3], val.id);
-                    }
+            // JSONStuff.forEach(async (val:Item) => { // for each item in the cart
+            //     for (let i = 0; i < val.quantity; i++){  
+            //         const detailsOfKid = val.details[i];        
+            //         if (val.id == 11 || val.id == 16 || val.id == 17){ //holiday camp 2 day or 1 day
+            //             const campKidDetails = {
+            //                 childName: detailsOfKid.childName,
+            //                 childAge: detailsOfKid.childAge,
+            //                 childComments: detailsOfKid.childComments,
+            //                 childClub: detailsOfKid.childClub,
+            //                 purchaseName: detailsOfKid.purchaseName,
+            //                 parent: parent
+            //             }
+            //             // check if they are already in the camp
+            //             let isKidAlreadyInCamp = false;
+            //             if (val.id == 16){ // one day
+            //                 const dayComing = detailsOfKid.purchaseName[1];
+            //                 if (dayComing === "1"){
+            //                     isKidAlreadyInCamp = await isKidInCamp(detailsOfKid.childName, detailsOfKid.purchaseName[0], detailsOfKid.purchaseName[1])
+            //                 }
+            //                 if (dayComing === "2"){
+            //                     isKidAlreadyInCamp = await isKidInCamp(detailsOfKid.childName, detailsOfKid.purchaseName[0], detailsOfKid.purchaseName[1])
+            //                 }
+            //             } else {
+            //                 isKidAlreadyInCamp = await isKidInCamp(detailsOfKid.childName, detailsOfKid.purchaseName[0],"")
+            //             }
+            //             if (!isKidAlreadyInCamp){
+            //                 const addingChild = await addChildToCamp(detailsOfKid.purchaseName[0], val.id, campKidDetails, detailsOfKid.purchaseName[1]);
+            //             }
+            //         } else if (val.id == 9 || val.id == 10){ //buying tokens
+            //             const makingTokensForPlan = await makeTokenForPlan(val.id, customerEmail);                   
+            //         } else if (val.id == 14 || val.id == 15){ //using tokens
+            //             // const usingTokensForPlan = await useTokenForPlan(val.details[index].purchaseName[3], val.id);
+            //         }
 
-                    }
+            //         }
                     
-                });
-                    
-            console.log("escaped the while loop");
+            //     });
             if (EMAIL_TO_TOM_ON){
                 const theyBoughtPromises = JSONStuff.map(async (val: Item) => {
                     let item = await Product.findOne({ id: val.id });
                     let details = JSON.stringify(val.details);
-                    return `${item?.name} : ${details}`;
-                });
-                
-                // join the array into something readable
-                const theyBoughtArray = await Promise.all(theyBoughtPromises);
-                const theyBought = theyBoughtArray.join(",<br /><br />");
-                let sendingEmail = await sendSuccessEmail(customerEmail, theyBought, response);
+                    return { category: item?.name, camps: details };
+                  });
+                  
+                  // join the array into something readable
+                  const theyBoughtArray = await Promise.all(theyBoughtPromises);
+                  
+                  let htmllist = "";
+                  
+                  theyBoughtArray.forEach(({ category, camps }) => {
+                    htmllist += `<h3>${category}</h3>`;
+                    const campDetails = JSON.parse(camps);
+                    const listItems = campDetails.map((camp: details) => {
+                      return `
+                        <li>
+                          <strong>Child Name:</strong> ${camp.childName}<br>
+                          <strong>Child Age:</strong> ${camp.childAge}<br>
+                          <strong>Child Comments:</strong> ${camp.childComments}<br>
+                          <strong>Child Club:</strong> ${camp.childClub}<br>
+                          <strong>Purchased Camps:</strong> ${camp.purchaseName.join(', ')}
+                        </li>
+                      `;
+                    });
+                  
+                    htmllist += `<ul>${listItems.join('')}</ul><br />`;
+                  });
+                  
+                  
+                let sendingEmail = await sendCampSuccessEmail(customerEmail, htmllist, response);
             }
 
             console.log("Finished reacting to the successful purchase")

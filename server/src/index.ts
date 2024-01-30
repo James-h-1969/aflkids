@@ -37,7 +37,6 @@ app.post("/camps", campController.addCamp);
 app.post("/updatecampstatus", campController.changeArchive)
 app.post("/deletecamp", campController.deleteCamp)
 app.post("/updatecamp", campController.updateCamp)
-app.post("/EmailCampUpdate", campController.emailCamp)
 
 // PRIVATE ROUTES //
 app.get("/PrivateTimes", privateController.getCoachTimes);

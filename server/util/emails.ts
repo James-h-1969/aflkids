@@ -12,16 +12,23 @@ const SES_CONFIG = {
 export const ses = new AWS.SES(SES_CONFIG);
 export const senderEmail = 'jameshocking542@gmail.com'; // Replace with your sender email address (replace with TOM)
 
-export async function sendSuccessEmail(customerEmail:string, theyBought: string, response:Response){
-    let emailList = ["Tomoleary@aflkids.com.au"]; // send the email to tom outlining that there was just a purchase
-            
+// EMAIL TO AFLKIDS team showing a successful purchase
+
+/*
+To do -> make it so the email is more readable and maybe has relevant stats
+
+
+*/
+export async function sendCampSuccessEmail(customerEmail:string, theyBought: string, response:Response){
+    let emailList = ["jameshockingdev@gmail.com"]; // send the email to AFLkids staff outlining that there was just a purchase
+    
     const params = {
         Destination: {
             ToAddresses: emailList,
         },
         Message: {
             Body: {
-                Html: { Data: `${customerEmail} just purchased <br /><br />${theyBought}<br /><br />Good stuff.` }
+                Html: { Data: `<h4>Parent with the email:  ${customerEmail} just purchased: </h4>${theyBought}<h4>Good stuff!</h4>` }
             },
             Subject: { Data: "AFLKIDS PURCHASE!" }
         },
@@ -35,29 +42,3 @@ export async function sendSuccessEmail(customerEmail:string, theyBought: string,
         response.status(200).send(`Error sending email to ${customerEmail}: ${error}`).end();
     }
 }
-
-export async function sendEmail(customers:Array<string>, message:string, header:string){
-    console.log("Sending Email...\n")
-    const params = {
-        Destination: {
-            ToAddresses: customers,
-        },
-        Message: {
-            Body: {
-                Html: { Data: message }
-            },
-            Subject: { Data: header }
-        },
-        Source: senderEmail
-    };
-
-    try {
-        const result = await ses.sendEmail(params).promise();
-        console.log("Successfully sent emails.")
-    } catch (error) {
-        console.log("Something was unsuccessful trying to send an email: ")
-        console.log(error)
-    }
-}
-
-//From the team at AFLKids,<br /><br />Just a reminder about the upcoming 

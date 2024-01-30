@@ -1,6 +1,5 @@
 import Camp from "../Models/Camp";
 import express, { NextFunction, Request, Response } from "express";
-import { sendEmail } from "../util/emails"
 
 export const campController = {
     getCamps: async (req: Request, res: Response) => { //function that gets all of the current camps avaialbe 
@@ -50,31 +49,5 @@ export const campController = {
             locPic: locPic_
         }}
         const updatingCamp = await Camp.findOneAndUpdate(filter, update, { new:true, runValidators:true});
-    },
-    emailCamp: async (req: Request, res: Response) => {
-        const {campname_} = req.body;
-        console.log(`\nCurrently Emailing all parents in: ${campname_}`);
-        const campToEmail = await Camp.findOne({name: campname_});
-        let parentList:string[] = [];
-        // go through day one and day 2 and get all the parents into a list
-        campToEmail?.kidsDay1.forEach(val => {
-            let parent = val.parent.email;
-            if (!parentList.includes(parent)){
-                parentList.push(parent)
-            }
-        })
-        campToEmail?.kidsDay2.forEach(val => {
-            let parent = val.parent.email;
-            if (!parentList.includes(parent)){
-                parentList.push(parent)
-            }
-        })
-        // console.log(parentList)
-        // FIGURE OUT THE EMAIL WORKING FOR SENDING TO JAMES HOCKING
-        let sendingTo = process.env.STATUS == "dev" ? ["jameshocking542@gmail.com"] : [] //parentList    (CHANGE THIS WHEN CONFIDENT)
-
-        const emailing = await sendEmail(sendingTo, `Hi from the team at AFLKids!<br /><br />We are just reminding you about the upcoming ${campname_}. We are excited to see you and your child(s) there! <br /><br />Regards, AFLKIDS`, "REMINDER: Aflkids session soon!")
-    }
-
-    
+    },    
 }
