@@ -9,11 +9,13 @@ import DisplayCamp from "./ManagerHelp/DisplayCamp";
 import ParentSection from "./ManagerHelp/ParentSection";
 import { backendLink, ColourScheme } from "../globalVar";
 import CoachSection from "./ManagerHelp/CoachSection";
+import { ChevronDown, ChevronUp } from "react-bootstrap-icons";
 
 export default function Manager(){
     const [camps, setCamps] = useState<CampType[]>([]);
     const [showingAddCamp, setshowingAddCamp] = useState(false);
     const [isLoggedIn, setLoggedIn] = useState(false);
+    const [showingArchivedCamps, setShowingArchivedCamps] = useState(false);
 
     useEffect(() => {
         async function fetchCamps() {
@@ -44,9 +46,15 @@ export default function Manager(){
             {showingAddCamp ? <AddCamp setShowingAddCamp={setshowingAddCamp}/>: <></>}
             <div> 
                 {camps.slice().reverse().map((value: CampType, index) => (
-                    <DisplayCamp key={index} val={value} />
+                    !value.archived ? <DisplayCamp key={index} val={value} />:<></>
                 ))}
             </div>
+            <div className="ms-3 p-4 d-flex justify-content-between align-items-center" onClick={() => setShowingArchivedCamps(!showingArchivedCamps)} style={{fontWeight:"bold", width:"200px", fontSize:"15px", borderRadius:"10px", cursor:"pointer"}}>{!showingArchivedCamps ? <>Show Archived   <ChevronDown /></>:<>Hide Archived <ChevronUp /></>}</div>
+                <div> 
+                    {camps.slice().reverse().map((value: CampType, index) => (
+                        showingArchivedCamps && value.archived ? <DisplayCamp key={index} val={value} />:<></>
+                    ))}
+                </div>
             {/* <div>
                 <CoachSection />                
             </div>   */}
