@@ -1,6 +1,12 @@
 import Coach from "../Models/Coach";
 import { Request, Response } from "express";
 
+type AvailableSession = {
+    location: string,
+    timing: Date,
+    day_availabilities: boolean[]
+}
+
 export const coachController = {
     getCoaches: async (req: Request, res: Response) => {
         const coaches = await Coach.find();
@@ -11,7 +17,15 @@ export const coachController = {
         const newCoach = new Coach({
             name:name_,
             role:"AFLKids Coach",
-            availableSessions: [],
+            weekAvailabilities: [
+                [false, false, false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false, false, false]
+              ],
             bookedSessions: [],
             imgName: ""
         });
@@ -52,9 +66,19 @@ export const coachController = {
         }
         const updatedCoach = await coach?.save();
 
+    },
+    // function for setting the week availabilities
+    setWeekAvailability: async (req: Request, res: Response) => {
+        const {name_, available_} = req.body;
+        try{
+            const coach = await Coach.findOne({ name: name_ }); // find the coach
+            if (coach){
+                coach.weekAvailabilities = available_;
+                const updatedCoach = await coach.save();
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
-    // deleteSession: async (req: Request, res: Response) => {
-
-    // },
 
 }

@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const CoachSchema = new Schema({
     name: String,
     role: String,
-    availableSessions: Array,
+    weekAvailabilities: Array<Array<Boolean>>,
     bookedSessions: Array,
     imgName: String
 });

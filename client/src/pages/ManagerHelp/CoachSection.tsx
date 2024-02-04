@@ -3,6 +3,7 @@ import { Button, Form } from "react-bootstrap"
 import { Coach } from "../../types/coachType";
 import "../manager.css"
 import { ColourScheme, backendLink } from "../../globalVar";
+import CoachTimetable from "./CoachTimetable";
 // import { Kids } from "../../types/kidsType";
 
 export default function CoachSection(){
@@ -11,26 +12,6 @@ export default function CoachSection(){
     const [showCoach, setShowCoach] = useState(false);
     const [CoachtoShow, setCoachToShow] = useState<Coach>();
     const [bookedSessionShowing, setBookedSessionShowing] = useState(-1);
-
-    // function getTimetableArray(sessions:AvailableSession[], date:Date){
-    //   // initialise the week array
-    //   let currentWeek: boolean[][] = Array.from({ length: 12 }, () => Array(7).fill(false));
-
-    //   for (const session of  sessions){
-    //     let currentSessionTiming = session.timing;
-    //     const diff = currentSessionTiming.getDate() - currentSessionTiming.getDay() + (currentSessionTiming.getDay() === 0 ? -6 : 1); // Adjust for Sunday
-
-    //     // let startOfWeek:Date = currentSessionTiming.setDate(diff);
-    //     // startOfWeek.setHours(0, 0, 0, 0); // Set time to midnight
-    //     // is session in current week
-
-    //     // what day of the week is session
-    //     // what time is session
-    //     // change array
-    //   }
-
-    //   return currentWeek;
-    // }
 
     function addCoach(){
         const newCoach = {
@@ -79,31 +60,6 @@ export default function CoachSection(){
       setShowCoach(!showCoach);
       setCoachToShow(coach)
     }
-
-    // const kids: Kids = {
-    //   kids: [],
-    // }
-
-    // function test(){
-    //   let session = {
-    //     name_: "Tom O'Leary",
-    //     location_: "Weldon Oval",
-    //     timing_: new Date(),
-    //     kids_: kids,
-    //     type_: "1 on 1"
-    //   }
-    //   const requestOptions: RequestInit = {
-    //       method: 'POST',
-    //       headers: {
-    //           'Content-Type': 'application/json',
-    //           // Add any additional headers if required
-    //         },
-    //       body: JSON.stringify(session),
-    //   };
-
-    //   fetch(`${backendLink}/addCoachSess`, requestOptions)
-
-    // }
 
     async function delCoachSession(timing:Date){
       const toDel = {
@@ -171,7 +127,7 @@ export default function CoachSection(){
                   top: 0,
                   left: 0,
                   width: "100vw",
-                  height: "100vh",
+                  height: "120vh",
                   backgroundColor: "rgba(0, 0, 0, 0.5)", // Red color with 50% transparency
                   zIndex: "120"
                 }}>
@@ -180,7 +136,7 @@ export default function CoachSection(){
                   top: '20%',
                   left: "20%",
                   width: '60%',
-                  height: '60%', // Adjust the height as needed
+                  height: '65%', // Adjust the height as needed
                   backgroundColor: ColourScheme.defaultColour,
                   zIndex: "200",
                   borderRadius: "10px"
@@ -200,7 +156,7 @@ export default function CoachSection(){
                     <div className="d-flex gap-5 ps-5 pt-3">
                       <div>
                         <div style={{ color: "white", fontSize: "40px", fontWeight: "bold" }}>{CoachtoShow?.name}</div>
-                        <div style={{ color: "grey", fontSize: "20px", fontWeight: "bold" }}>CEO, AFLKids</div>
+                        <div style={{ color: "grey", fontSize: "20px", fontWeight: "bold" }}>{CoachtoShow?.role}</div>
                       </div>
                       <div className="rounded-circle mb-2" style={{
                         backgroundImage: `url(${CoachtoShow?.imgName})`,
@@ -211,22 +167,15 @@ export default function CoachSection(){
                         position: "relative"
                       }}></div>
                       </div>
-                      <div className="d-flex gap-5 ms-5 pt-3" style={{color:"white", width:"87%", backgroundColor:"grey", height:"300px", borderRadius:"10px"}}>
-                        <div className="d-flex justify-content-center" style={{width:"100%", fontWeight:"bold"}}>Change availabilities</div>
+                      <div className="ms-5 pt-3" style={{color:"white", width:"87%", backgroundColor:"grey", height:"61%", borderRadius:"10px"}}>
+                        
+                        <CoachTimetable coach={CoachtoShow}/>
                         
                       </div>
                     </div>
                     
                     
                     <div>
-                    <div className="ms-4 mt-4">
-                      <div style={{color:"white", fontWeight:"bold", fontSize:"22px"}}>Available</div>
-                      {CoachtoShow?.availableSessions.map((value) => (
-                        <div className="rounded-circle">
-                          {value.location}
-                        </div>
-                      ))}
-                    </div>
                     <div className="ms-4 mt-4">
                       <div  style={{color:"white", fontWeight:"bold", fontSize:"22px"}}>Booked</div>
                       <div className="d-flex flex-row"> 
@@ -236,7 +185,7 @@ export default function CoachSection(){
                         className="rounded-circle"
                         style={{ width: "20px", cursor:"pointer", height: "20px", backgroundColor: "green", margin: "5px" }}
                         onClick = {() => setBookedSessionShowing(bookedSessionShowing == -1 ?  index: (bookedSessionShowing == index ? -1 : index))}
-                     >  {value.location}
+                     >  
                       </div>
                       ))}</div>
                     </div>

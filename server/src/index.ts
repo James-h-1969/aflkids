@@ -62,6 +62,7 @@ app.get("/Coaches", coachController.getCoaches)
 app.post("/deleteCoach", coachController.deleteCoach)
 app.post("/addCoachSess", coachController.addBookedSession)
 app.post("/delCoachSess", coachController.deleteBookedSession)
+app.post("/CoachsetAvailable", coachController.setWeekAvailability)
 
 
 

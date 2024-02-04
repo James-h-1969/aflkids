@@ -4,7 +4,7 @@ import { Kids } from "./kidsType"
 export type Coach = {
     name: string,
     role: string
-    availableSessions: Array<AvailableSession>,
+    weekAvailabilities: Array<Array<Boolean>>,
     bookedSessions: Array<BookedSession>,
     imgName: string
 }
@@ -17,9 +17,3 @@ export type BookedSession = {
     type: string,
 }
 
-// type for a training session while availalbe
-export type AvailableSession = {
-    location: string,
-    timing: Date,
-    day_availabilities: number[]
-}
