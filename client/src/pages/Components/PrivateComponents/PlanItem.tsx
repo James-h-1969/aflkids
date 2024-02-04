@@ -34,18 +34,13 @@ export default function PlanItem({name, price, image, desc, id}:PlanItemProps){
     }
   
     return(
-        <Card style={{height:mediaQueries.mobile?"600px":'700px', width:mediaQueries.mobile?"300px":"500px", marginBottom:"50px"}}>   
-            <Card.Img variant="top" src={image} style={{height:mediaQueries.mobile?"400px":'400px', width:mediaQueries.mobile?"":"500px", objectFit:"cover"}}/>
+        <Card style={{height:mediaQueries.mobile?"300px":'300px', width:mediaQueries.mobile?"200px":"300px", marginBottom:"50px"}}>   
+            <Card.Img variant="top" src={image} style={{height:mediaQueries.mobile?"400px":'300px', width:mediaQueries.mobile?"":"300px", objectFit:"cover", overflow:"hidden"}}/>
             <Card.Body className="d-flex flex-column">
                 <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
                     <span className="fs-2">{name}</span>
                     <span className="ms-2 text-muted">{price}</span>
                 </Card.Title>
-                {desc?.map((line) => (
-                    <div className="fs-5">
-                        - {line}
-                    </div>
-                ))}
                 <Button className="mt-3" onClick={() => handleAddingCart(id)}>
                     Add to cart
                 </Button>

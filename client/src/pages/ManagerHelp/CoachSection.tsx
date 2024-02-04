@@ -180,9 +180,9 @@ export default function CoachSection(){
                       <div  style={{color:"white", fontWeight:"bold", fontSize:"22px"}}>Booked</div>
                       <div className="d-flex flex-row"> 
                       {CoachtoShow?.bookedSessions.map((value, index) => (
-                        <div
-                        
+                        <div                  
                         className="rounded-circle"
+                        key={value.type}
                         style={{ width: "20px", cursor:"pointer", height: "20px", backgroundColor: "green", margin: "5px" }}
                         onClick = {() => setBookedSessionShowing(bookedSessionShowing == -1 ?  index: (bookedSessionShowing == index ? -1 : index))}
                      >  

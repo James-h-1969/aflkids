@@ -1,6 +1,5 @@
 import  { useState } from "react";
 import NavBar from "./Components/NavBar";
-import Header from "./Components/Header";
 import PrivateLocation from "./Components/PrivateComponents/PrivateLocation";
 import PrivateTimetable from "./Components/PrivateComponents/PrivateTimetable";
 import PrivateSessionType from "./Components/PrivateComponents/PrivateSessionType";
@@ -8,9 +7,13 @@ import AddSession from "./Components/PrivateComponents/AddSession";
 import PrivatePlans from "./Components/PrivateComponents/PrivatePlans";
 import "./Components/Components.css";
 import Footer from "./Components/Footer"
+import useMediaQueries from "media-queries-in-react";
+import { ColourScheme } from "../globalVar";
 
 function Private() {
-    const desc = "Get one of our best coaches for personalised assistance. Tailored help to get the most out of your AFL kid.";
+    const mediaQueries = useMediaQueries({ 
+        mobile: "(max-width: 768px)", // Adjust max-width for mobile screens
+      });
     const [stepStates, setStepStates] = useState([true, false, false, false]);
     const [overallSession, setOverallSession] = useState({
         id: 0,
@@ -81,7 +84,9 @@ function Private() {
     return (
       <>
         <NavBar />
-        <Header title="Private Sessions" description={desc}/>
+        <div style={{ paddingTop:mediaQueries.mobile?"100px":"120px", paddingLeft:mediaQueries.mobile?"30px":"90px", zIndex:"100"}}>
+                <span style={{fontSize:mediaQueries.mobile?"30px":"90px", color:ColourScheme.defaultColour, fontFamily:"Rubik", fontWeight:"bold", WebkitTextStroke:"2px #000"}}>Private Sessions</span>
+        </div>
         <PrivatePlans />
         <PrivateLocation showTimetable={showTimetable} step1={step1}/>
         {stepStates[1] ? <PrivateTimetable showTypes={showType} step2={step2} location={overallSession.location}/> :<></>}

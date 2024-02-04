@@ -7,6 +7,10 @@ type coachTimetableType = {
     coach?: Coach
 }
 
+type LocationState = {
+    [key: string]: boolean;
+  };
+
 export default function CoachTimetable({coach}: coachTimetableType){  
     const [weekArray, setWeekArray] = useState<Array<Array<Boolean>>>([
         [false, false, false, false, false, false, false, false, false, false, false, false],
@@ -17,6 +21,19 @@ export default function CoachTimetable({coach}: coachTimetableType){
         [false, false, false, false, false, false, false, false, false, false, false, false],
         [false, false, false, false, false, false, false, false, false, false, false, false]
       ]);
+    const [locations, setLocation] = useState<LocationState>({
+        "Northern Beaches": false,
+        "North Shore": false,
+    })
+
+
+    // function to update location correctly
+    function updateLocation(loc:string){
+        setLocation(locations => ({
+            ...locations,
+            [loc]: !locations[loc],
+        }));
+    }
 
     function updateGrid(row: number, col: number){
         const updatedArray = [...weekArray]; // Create a shallow copy of the array
@@ -28,12 +45,13 @@ export default function CoachTimetable({coach}: coachTimetableType){
     useEffect(() => {
         if (coach?.weekAvailabilities){
             setWeekArray(coach?.weekAvailabilities);
+            setLocation(coach?.locations);
         }
     }, [])
 
     // function to change the current availabilities of the week
     async function changeAvailabilities(){
-        const update = {name_: coach?.name, available_:weekArray};
+        const update = {name_: coach?.name, available_:weekArray, locs_:locations};
         const requestOptions: RequestInit = {
             method: 'POST',
             headers: {
@@ -68,6 +86,14 @@ export default function CoachTimetable({coach}: coachTimetableType){
             </div>
             <div className="d-flex justify-content-center">
                 <Button className="mt-4 d-flex justify-content-center" style={{backgroundColor:"green"}} onClick={() => changeAvailabilities()}>Update Week</Button>
+            </div>
+            <div className="d-flex justify-content-around mt-4">
+            {Object.entries(locations).map(([key, value]) => (
+                <div onClick={() => updateLocation(key)} key={key} style={{backgroundColor: value ? "green":"red", width:"140px",  borderRadius:"10px", textAlign:"center", padding:"3px", cursor:"pointer"}}>
+                    {key}
+                </div>
+            ))}
+                
             </div>
             
         </>

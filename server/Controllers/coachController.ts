@@ -26,6 +26,10 @@ export const coachController = {
                 [false, false, false, false, false, false, false, false, false, false, false, false],
                 [false, false, false, false, false, false, false, false, false, false, false, false]
               ],
+            locations: {
+                "Northern Beaches": false,
+                "North Shore": false,
+            },
             bookedSessions: [],
             imgName: ""
         });
@@ -69,11 +73,12 @@ export const coachController = {
     },
     // function for setting the week availabilities
     setWeekAvailability: async (req: Request, res: Response) => {
-        const {name_, available_} = req.body;
+        const {name_, available_, locs_} = req.body;
         try{
             const coach = await Coach.findOne({ name: name_ }); // find the coach
             if (coach){
                 coach.weekAvailabilities = available_;
+                coach.locations = locs_;
                 const updatedCoach = await coach.save();
             }
         } catch (error) {
