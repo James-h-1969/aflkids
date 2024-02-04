@@ -1,0 +1,106 @@
+// FOR MANAGER LOGIN // 
+
+// const SECRET_KEY = process.env.TOKEN_KEY;
+
+// // Simulate user data
+// const users: Record<string, UserData> = {
+//   manager: { username: 'Tom Oleary', password: 'Bombers30!' },
+// };
+
+// app.post('/login', (req:Request, res:Response) => {
+//   const { username, password } = req.body;
+
+//   // Simulate user authentication (replace with actual logic)
+//   const user = users[username];
+//   if (user && user.password === password) {
+//     const token = jwt.sign({ username }, SECRET_KEY);
+//     res.cookie('token', token, { httpOnly: true, secure: true });
+//     res.status(200).json({ message: 'Login successful' });
+//   } else {
+//     res.status(401).json({ message: 'Authentication failed' });
+//   }
+// });
+
+// app.post('/logout', (req, res) => {
+//   res.clearCookie('token');
+//   res.status(200).json({ message: 'Logout successful' });
+// });
+
+// // Middleware to check for authentication
+// const authenticate = (req: Request, res: Response, next: NextFunction) => {
+//   const token = req.cookies.token;
+
+//   if (!token) {
+//     return res.status(401).json({ message: 'Authentication required' });
+//   }
+
+//   try {
+//     const decoded = jwt.verify(token, SECRET_KEY) as { username: string };
+//     const user = users[decoded.username];
+//     next();
+//   } catch (error) {
+//     return res.status(401).json({ message: 'Invalid token' });
+//   }
+// };
+
+// app.get('/protected', authenticate, (req, res) => {
+//   res.status(200).json({ message: 'You have manager access' });
+// });
+
+// app.use(cookieParser());
+
+//interface UserData {
+    username: string;
+    password: string;
+}
+
+
+/////     FOR MAKING SURE THAT A COACH CANT BE BOOKED OUT TWICE  /////
+
+
+// app.post('/session-into-cart', async (req: Request, res: Response) => {
+//     //put into database
+//     const coachName = req.body.coachName;
+//     const time = req.body.time;
+//     const date = req.body.date;
+//     const kidName = req.body.kidName;
+//     const newCoachBooked = new CoachBooked({
+//             coachName: coachName,
+//             time: time,
+//             date: date,
+//             kidName: kidName,
+//         })
+//     const createdAcad = await newCoachBooked.save();
+
+//     //remove from database
+//     const filter = { name: coachName, dates: date };
+//     const update = { $pull: { dates: date, times: time }};
+//     try{
+//         const updatedCoach = await Coach.findOneAndUpdate(filter, update, { new:true, runValidators:true})
+//     } catch (error) {
+//         console.error("Error updating Coach:", error);
+//     }
+// })
+
+// app.post('/session-outof-cart', async (req: Request, res: Response) => {
+//     //remove the session from the database
+//     const coachName = req.body.coachName;
+//     const time = req.body.time;
+//     const date = req.body.date;
+//     const kidName = req.body.kidName;
+//     let filter = { coachName: coachName, date: date };
+//     let update = { $pull: { date: date, time: time }};
+//     try{
+//         const updatedCoach = await CoachBooked.findOneAndUpdate(filter, update, { new:true, runValidators:true})
+//     } catch (error) {
+//         console.error("Error updating Coach:", error);
+//     }
+//     //add into coach
+//     let filter2 = { name: coachName, date: date };
+//     let update2 = { $push: { dates: date, times: time }};
+//     try{
+//         const updatedCoach = await Coach.findOneAndUpdate(filter2, update2, { new:true, runValidators:true})
+//     } catch (error) {
+//         console.error("Error updating Coach:", error);
+//     }
+// })

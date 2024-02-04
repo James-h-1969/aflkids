@@ -20,5 +20,6 @@ export type BookedSession = {
     timing: Date,
     kids: Kids,
     type: string,
+    confirmed: false;
 }
 

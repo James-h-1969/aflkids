@@ -52,7 +52,7 @@ function PrivateSessionType({showAdd, step3}:PrivateSessionTypeProps){
     }
 
     return(
-        <div className="" style={{backgroundColor:ColourScheme.defaultColour, borderRadius:"20px", margin:mediaQueries.mobile?"20px":"40px", padding:mediaQueries.mobile?"20px":"40px"}}>
+        <div className="" style={{backgroundColor:"rgb(222, 222, 231)", borderRadius:"20px", margin:mediaQueries.mobile?"20px":"40px", padding:mediaQueries.mobile?"20px":"40px"}}>
             <h1><span className='step1'>Step 3: Pick Session Type</span></h1>
             <div className="d-flex pt-2 justify-content-around gap-2" style={{padding:mediaQueries.mobile?"0px":"20px"}}>
                 <div className={isActive[0] ? "session-type-active": "session-type-deactive"} style={{width:mediaQueries.mobile?"60px":"180px", paddingTop:mediaQueries.mobile?"10px":"20px"}} onClick={() => handleClick(0,1)}>
@@ -70,21 +70,6 @@ function PrivateSessionType({showAdd, step3}:PrivateSessionTypeProps){
                 <div className={isActive[3] ? "session-type-active": "session-type-deactive"} style={{width:mediaQueries.mobile?"60px":"180px", paddingTop:mediaQueries.mobile?"10px":"20px"}} onClick={() => handleClick(3,5)}>
                     <h1><span className="private-session-type" style={{fontSize:mediaQueries.mobile?"15px":"40px"}}>5 on 1</span></h1>
                     <h2><span className="private-session-price">$200</span></h2>
-                </div>
-                <div className={isActive[4] ? "session-type-active": "session-type-deactive"} style={{width:mediaQueries.mobile?"60px":"180px", paddingTop:mediaQueries.mobile?"10px":"20px"}} onClick={() => handleClick(4, amountofKids)}>
-                    <h1><span className="private-session-type" style={{fontSize:mediaQueries.mobile?"15px":"40px"}}>... on 1</span></h1>
-                    <h2><span className="private-session-price">${80 + 30 * (amountofKids-1)}</span></h2>
-                    <a><span style={{fontSize:mediaQueries.mobile?"10px":"30px"}}>+ $30 per extra AFL kid</span></a>
-                    <div className="kid-quantity d-flex justify-content-center">
-                        <InputGroup style={{width:"70%"}}>
-                            <FormControl
-                                type="number"
-                                value={amountofKids}
-                                onChange={(e) => updateDropDown(parseInt(e.target.value))}
-                                readOnly={!isActive[4]}
-                            />
-                        </InputGroup>
-                    </div>
                 </div>
 
         </div>
