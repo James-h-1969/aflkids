@@ -11,11 +11,7 @@ type ChooseDetailsPropType = {
 export default function ChooseDetails({date, coaches, showTypes}:ChooseDetailsPropType){
     const [dayAvailables, setDayAvailables] = useState<Array<Array<Coach>>>(
         [[], [], [], [], [], [], [], [], [], [], [], []]
-    )
-
-    const [selectedTime, setSelectedTime] = useState("");
-    const [isShowingSelected, setIsShowingSelected] = useState(false);
-    
+    )   
     useEffect(() => {
         const updatedDayAvailables: Array<Array<Coach>> = Array.from({ length: 12 }, () => []);
         for (const coach of coaches) {
@@ -42,7 +38,7 @@ export default function ChooseDetails({date, coaches, showTypes}:ChooseDetailsPr
                 return isBooked;
             });
             
-            for (const [i, session]  of times.entries()){
+            for (const [i] of times.entries()){
                 if (dayArray1[i] && !dayArray2[i]){
                     updatedDayAvailables[i].push(coach);
                 }
@@ -65,12 +61,6 @@ export default function ChooseDetails({date, coaches, showTypes}:ChooseDetailsPr
                     ))
                 }
             </div>
-            {isShowingSelected ? 
-                <div>
-                    {selectedTime}
-                </div>:
-                <></>
-            }
         </div>
     )
 }

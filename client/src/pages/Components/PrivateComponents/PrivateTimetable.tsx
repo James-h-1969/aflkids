@@ -15,7 +15,7 @@ type PrivateTimetableProps = {
 
 const MAX_WEEKS = 5;
 
-function PrivateTimetable({showTypes, step2, location}:PrivateTimetableProps){
+function PrivateTimetable({showTypes, location}:PrivateTimetableProps){
     const [currentCoaches, setCurrentCoaches] = useState<Array<Coach>>([]);
 
     const [startDate, setStartDate] = useState<Date>(getStartOfWeek(new Date()));

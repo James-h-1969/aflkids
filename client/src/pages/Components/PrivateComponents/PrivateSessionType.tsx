@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { InputGroup, FormControl } from "react-bootstrap";
 import useMediaQueries from "media-queries-in-react";
-import { ColourScheme } from "../../../globalVar";
+// import { ColourScheme } from "../../../globalVar";
 
 type PrivateSessionTypeProps = {
     showAdd: (show:boolean) => void;
@@ -11,7 +10,6 @@ type PrivateSessionTypeProps = {
 function PrivateSessionType({showAdd, step3}:PrivateSessionTypeProps){
     const [isActive, setisActive] = useState([false, false, false, false, false]);
     const [activeIndex, setactiveIndex] = useState(-1);
-    const [amountofKids, setamountofKids] = useState(1);
 
     const mediaQueries = useMediaQueries({ 
         mobile: "(max-width: 768px)", // Adjust max-width for mobile screens
@@ -25,9 +23,6 @@ function PrivateSessionType({showAdd, step3}:PrivateSessionTypeProps){
             newState[activeIndex] = false;
             setactiveIndex(index);
             setisActive(newState);
-            if (!isActive[4]){
-                setamountofKids(1);
-            }
             showAdd(true);
             let price = 80 + 30 * (kids-1);
             step3(kids+2, price);
@@ -36,19 +31,7 @@ function PrivateSessionType({showAdd, step3}:PrivateSessionTypeProps){
         newState[activeIndex] = false;
         setactiveIndex(-1);
         setisActive(newState);
-        if (!isActive[4]){
-            setamountofKids(1);
-        }
         showAdd(false);
-    }
-
-    function updateDropDown(val:number){
-        if (val == 0 || val > 6){
-            return;
-        }
-        setamountofKids(val);
-        let price = 80 + 30 * (val-1);
-        step3(val+2, price);
     }
 
     return(

@@ -10,7 +10,7 @@ type PlanItemProps = {
     id: number
 }
 
-export default function PlanItem({name, price, image, desc, id}:PlanItemProps){
+export default function PlanItem({name, price, image, id}:PlanItemProps){
     const { addToCart } = useCart();
 
     const mediaQueries = useMediaQueries({ 

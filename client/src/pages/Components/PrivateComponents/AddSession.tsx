@@ -3,7 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import { useState } from "react";
 import storeItems from "../../data/items.json"
 import useMediaQueries from "media-queries-in-react";
-import { ColourScheme } from "../../../globalVar";
+// import { ColourScheme } from "../../../globalVar";
 
 // type storeItemType = {
 //     id:number,
