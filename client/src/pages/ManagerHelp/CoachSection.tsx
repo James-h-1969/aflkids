@@ -105,7 +105,7 @@ export default function CoachSection(){
                 {coaches.slice().reverse().map((value) => (
                     <div className="d-flex flex-column align-items-center" style={{ width: "100px", height: "180px" }}>
                     <div className="rounded-circle mb-2" style={{ backgroundImage:`url(${value.imgName})`, backgroundSize: "cover",
-                        backgroundPosition: "center",width: "100px", height: "100px", position: "relative", backgroundColor: value.imgName === "" ? "grey":"" }}>
+                        backgroundPosition: "center", aspectRatio : "1 / 1", height: "100%", position: "relative", backgroundColor: value.imgName === "" ? "grey":"" }}>
                       {/* Red "X" */}
                       <div onClick={() => deleteCoach(value.name.valueOf())} className="need_hover rounded-circle bg-danger d-flex justify-content-center align-items-center" style={{
                         width: "1.5rem",

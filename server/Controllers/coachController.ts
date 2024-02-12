@@ -1,11 +1,6 @@
 import Coach from "../Models/Coach";
 import { Request, Response } from "express";
 
-type AvailableSession = {
-    location: string,
-    timing: Date,
-    day_availabilities: boolean[]
-}
 
 export const coachController = {
     getCoaches: async (req: Request, res: Response) => {

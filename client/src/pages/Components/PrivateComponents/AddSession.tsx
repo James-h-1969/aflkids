@@ -1,8 +1,9 @@
-// import { useCart } from "../../context/cartContext";
+import { useCart } from "../../context/cartContext";
 import { Button, Form } from "react-bootstrap";
 import { useState } from "react";
 import storeItems from "../../data/items.json"
 import useMediaQueries from "media-queries-in-react";
+import { backendLink } from "../../../globalVar";
 // import { ColourScheme } from "../../../globalVar";
 
 // type storeItemType = {
@@ -28,7 +29,7 @@ export default function AddSession(props:AddSessionProps){
         mobile: "(max-width: 768px)", // Adjust max-width for mobile screens
     });
 
-    // const { addToCart } = useCart();
+    const { addToCart } = useCart();
     const [childName, setChildName] = useState('');
     const [childAge, setChildAge] = useState('');
     const [club, setClub] = useState('');
@@ -47,109 +48,37 @@ export default function AddSession(props:AddSessionProps){
             body: JSON.stringify({ id: id, token: token }),
             });
         const data = await response.json();
-        if (response.ok) {
-            return true; // Token is valid
-        } else {
-            return false; // Invalid token
-        }
         console.log(data);
-        return false;
+        return response.ok
+
     }
 
 
-    // async function handleAddingCart(){
-    //     let Newdate = props.date.split(' ');
-    //     Newdate[Newdate.length - 1] = Newdate[Newdate.length - 1].slice(2);
-    //     let Newerdate = Newdate.join("");
-
-
-    //     let ID = props.id;
-
-    //     if (token.length > 0){
-    //         let isValid = await isTokenRight(token, props.id);
-    //         if (isValid){
-    //             if (props.id == 3){
-    //                 ID = 14;
-    //             } else {
-    //                 ID = 15;
-    //             }
-    //         } else {
-    //             setShowWarning(true);
-    //             return
-    //         }
-    //     }
-        
-    //     const Customdetails = {
-    //         childName: childName,
-    //         childAge: childAge,
-    //         childComments: comments,
-    //         childClub: club,
-    //         purchaseName: [props.name, Newerdate, props.time, token]
-    //     }
-
-    //     const response = await fetch('http://localhost:3000/session-into-cart', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({ coachName: props.name,date:Newerdate,time:props.time,kidName:childName  }),
-    //         });
-    //     const data = await response.json();
-
-
-
-    //     addToCart(ID, 1, Customdetails);
-    //     location.reload();
-    // }
-
-    async function handleSendingEmail(){
-
-        let Newdate = props.date.split(' ');
-        Newdate[Newdate.length - 1] = Newdate[Newdate.length - 1].slice(2);
-        let Newerdate = Newdate.join("");
-
-
+    async function handleAddingCart(){
         let ID = props.id;
 
-        if (token.length > 0){
+        if (token.length > 0){ // the token field has been used 
             let isValid = await isTokenRight(token, props.id);
-            if (isValid){
-                if (props.id == 3){
-                    ID = 14;
-                } else {
-                    ID = 15;
-                }
+            if (isValid){ //check if valid token
+                ID = ID === 3 ? 14 : 15;
             } else {
                 setShowWarning(true);
                 return
             }
         }
-  
-        const item = storeItems.find(i => i.id === ID)
-        const response = await fetch('https://aflkids-backend.onrender.com/email-private', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 
-                coachName: props.name, 
-                date:Newerdate, 
-                time:props.time, 
-                kidName:childName, 
-                kidAges:childAge,
-                sessionType: item?.name,
-                clubs: club,
-                comments: comments,
-                token: token,
-                email: email
-                }),
-            });
-        if (response.ok) {
-            // The fetch was successful
-            window.location.reload();
-        } else {
+        
+        const Customdetails = {
+            childName: childName,
+            childAge: childAge,
+            childComments: comments,
+            childClub: club,
+            purchaseName: [props.name, props.time, token]
         }
+
+        addToCart(ID, 1, Customdetails);
+        location.reload();
     }
+
 
     const isEmailingPossible =  email && childName && childAge && club;
     
@@ -225,11 +154,7 @@ export default function AddSession(props:AddSessionProps){
                         <span style={{fontWeight:"bold"}}>${props.price}.00</span>
                     </div>
                 </div>
-                {/* <Button variant="secondary" style={{width:"300px", cursor:"pointer"}} onClick={() => handleAddingCart()}>Add session</Button> */}
-            </div>
-            <div className="d-flex justify-content-around p-3">
-                Send email to the coach with your details to make an enquiry. The coach will reply within 3 days to confirm the booking or provide any updates.
-                <Button variant="secondary" style={{width:"300px", cursor:"pointer"}} onClick={() => handleSendingEmail()} disabled={!isEmailingPossible}>Send Email</Button>
+                <Button variant="secondary" style={{width:"300px", cursor:"pointer"}} onClick={() => handleAddingCart()}>Add session</Button>
             </div>
         </div>
     )

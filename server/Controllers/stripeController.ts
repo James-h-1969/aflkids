@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Camp from "../Models/Camp";
+import Coach from "../Models/Coach";
 import Product from "../Models/Product";
 import { sendCampSuccessEmail } from "../util/emails";
 require('dotenv').config();
@@ -7,30 +8,8 @@ require('dotenv').config();
 const Stripe = require('stripe')
 const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY);
 
-export type Parent = {
-    parentname: String,
-    email: String,
-    phone: String,
-    childNames: Array<string>,
-    childAge: Array<string>,
-    childClubs: Array<string>,
-    childComments: Array<string>,
-    childEvents: Array<Array<string>>, // this will be a 2D list representing each child and then a list of each event they have done
-}
+import { Child, Item, detailsCamp, detailsPrivate } from "../types";
 
-type details = {
-    childName: string,
-    childAge: string,
-    childComments: string,
-    childClub: string,
-    purchaseName: Array<String>,
-}
-
-interface Item {
-    id: number;
-    quantity: number;
-    details: Array<details>
-}
 
 const storeItems = new Map([
     [1, { priceInCents: 3499, name:"Hoodie" }],
@@ -114,7 +93,7 @@ export const stripeController = {
     handleSuccessfulPayment: async (request: Request, response: Response) => { //function for successful payment
         const sig = request.headers['stripe-signature'];
 
-        const EMAIL_TO_TOM_ON = true;
+        const EMAIL_TO_TOM_ON = false;
 
         try {
           const event = stripe.webhooks.constructEvent(request.body, sig, process.env.STRIPE_ENDPOINT_KEY);
@@ -145,43 +124,37 @@ export const stripeController = {
             // get the meta data as an array of JSON items
             const JSONStuff = JSON.parse(cartItems);
        
-            // JSONStuff.forEach(async (val:Item) => { // for each item in the cart
-            //     for (let i = 0; i < val.quantity; i++){  
-            //         const detailsOfKid = val.details[i];        
-            //         if (val.id == 11 || val.id == 16 || val.id == 17){ //holiday camp 2 day or 1 day
-            //             const campKidDetails = {
-            //                 childName: detailsOfKid.childName,
-            //                 childAge: detailsOfKid.childAge,
-            //                 childComments: detailsOfKid.childComments,
-            //                 childClub: detailsOfKid.childClub,
-            //                 purchaseName: detailsOfKid.purchaseName,
-            //                 parent: parent
-            //             }
-            //             // check if they are already in the camp
-            //             let isKidAlreadyInCamp = false;
-            //             if (val.id == 16){ // one day
-            //                 const dayComing = detailsOfKid.purchaseName[1];
-            //                 if (dayComing === "1"){
-            //                     isKidAlreadyInCamp = await isKidInCamp(detailsOfKid.childName, detailsOfKid.purchaseName[0], detailsOfKid.purchaseName[1])
-            //                 }
-            //                 if (dayComing === "2"){
-            //                     isKidAlreadyInCamp = await isKidInCamp(detailsOfKid.childName, detailsOfKid.purchaseName[0], detailsOfKid.purchaseName[1])
-            //                 }
-            //             } else {
-            //                 isKidAlreadyInCamp = await isKidInCamp(detailsOfKid.childName, detailsOfKid.purchaseName[0],"")
-            //             }
-            //             if (!isKidAlreadyInCamp){
-            //                 const addingChild = await addChildToCamp(detailsOfKid.purchaseName[0], val.id, campKidDetails, detailsOfKid.purchaseName[1]);
-            //             }
-            //         } else if (val.id == 9 || val.id == 10){ //buying tokens
-            //             const makingTokensForPlan = await makeTokenForPlan(val.id, customerEmail);                   
-            //         } else if (val.id == 14 || val.id == 15){ //using tokens
-            //             // const usingTokensForPlan = await useTokenForPlan(val.details[index].purchaseName[3], val.id);
-            //         }
+            JSONStuff.forEach(async (val:Item) => { // for each item in the cart
+                for (let i = 0; i < val.quantity; i++){             
+                    if (val.id == 11 || val.id == 16 || val.id == 17){ //holiday camp 2 day or 1 day
+                        const detailsOfKid = val.details[i] as detailsCamp;       
+                        const campKidDetails = {
+                            childName: detailsOfKid.childName,
+                            childAge: detailsOfKid.childAge,
+                            childComments: detailsOfKid.childComments,
+                            childClub: detailsOfKid.childClub,
+                            purchaseName: detailsOfKid.purchaseName,
+                        }
+                        const addingChild = await addChildToCamp(detailsOfKid.purchaseName[0], val.id, campKidDetails, detailsOfKid.purchaseName[1]);
+                    } else if (val.id == 9 || val.id == 10){ //buying tokens
+                        // const makingTokensForPlan = await makeTokenForPlan(val.id, customerEmail);                   
+                    } else if (val.id == 14 || val.id == 15){ //using tokens
+                        // const usingTokensForPlan = await useTokenForPlan(val.details[index].purchaseName[3], val.id);
+                    } else if (val.id >= 3 && val.id <= 8){ // private session
+                        const detailsOfKid = val.details[i] as detailsPrivate;
+                        const coachName = detailsOfKid.coach.name as string;
+                        const child: Child = {
+                            childName: detailsOfKid.childName,
+                            childAge: detailsOfKid.childAge,
+                            childComments: detailsOfKid.childComments,
+                            childClub: detailsOfKid.childClub,
+                        }
+                        const updatingCoach = await addPrivateSession(coachName, detailsOfKid.timing, child, detailsOfKid.location)
+                    }
 
-            //         }
+                    }
                     
-            //     });
+                });
             if (EMAIL_TO_TOM_ON){
                 const theyBoughtPromises = JSONStuff.map(async (val: Item) => {
                     let item = await Product.findOne({ id: val.id });
@@ -197,7 +170,7 @@ export const stripeController = {
                   theyBoughtArray.forEach(({ category, camps }) => {
                     htmllist += `<h3>${category}</h3>`;
                     const campDetails = JSON.parse(camps);
-                    const listItems = campDetails.map((camp: details) => {
+                    const listItems = campDetails.map((camp: detailsCamp) => {
                       return `
                         <li>
                           <strong>Child Name:</strong> ${camp.childName}<br>
@@ -235,7 +208,7 @@ export const stripeController = {
 }
 
 // Function to add child to specific camp
-async function addChildToCamp(name:string, id:number, details:Object, day:string){
+async function addChildToCamp(name:String, id:number, details:Object, day:String){
     const filter =  { name: name }; //find the required camp
     let update = {};
     if (id == 11 || id == 17){ //holiday camp 
@@ -246,7 +219,7 @@ async function addChildToCamp(name:string, id:number, details:Object, day:string
         } else if (day === "2") {
             update = { $push: {kidsDay2: details} };
         }
-    }  
+    } // query MONGODB to update Camp  
     try {
         const updatedCamp = await Camp.findOneAndUpdate(filter, update, { new:true, runValidators:true});
         console.log("Successfully updated the camp")
@@ -255,27 +228,19 @@ async function addChildToCamp(name:string, id:number, details:Object, day:string
     }
 }
 
-async function isKidInCamp(kidName: string, campName: string, day: string){
-    const camp = await Camp.findOne({ name: campName });
-
-    if (camp) {
-        let isKidInCamp = false;
-
-        if (day === "1"){
-            isKidInCamp = camp.kidsDay1.some(kid => kid.childName === kidName);
-        } else if (day === "2"){
-            isKidInCamp = camp.kidsDay2.some(kid => kid.childName === kidName);
-        } else {
-            isKidInCamp = camp.kidsDay1.some(kid => kid.childName === kidName) || camp.kidsDay2.some(kid => kid.childName === kidName);        
-        }
-
-        if (isKidInCamp) {
-            console.log(`${kidName} is in ${campName} camp's list.`);
-            return true
-        } else {
-            console.log(`${kidName} is not in ${campName} camp's list.`);
-            return false
-        }
+// Function to add private session to Coach
+async function addPrivateSession(coachName: string, timing: Date, child: Child, location: string){
+    const filter = {name: coachName}
+    const newSession = {
+        "timing": timing,
+        "location": location,
+        "child": child
     }
-    return false;
+    let update = {$push: {bookedSessions: newSession}}
+    try {
+        const updatedCoach = await Coach.findOneAndUpdate(filter, update, { new:true, runValidators:true});
+        console.log("Successfully updated the camp")
+    } catch (error) {
+        console.error("Error updating camp:", error);
+    }
 }

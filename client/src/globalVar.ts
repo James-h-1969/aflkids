@@ -7,7 +7,7 @@ export const ColourScheme = {
 }
 
 // Misc.
-const LIVE = true;
+const LIVE = false;
 export const backendLink = LIVE ? "https://aflkids-backend.onrender.com":"http://localhost:3000" 
 
 
